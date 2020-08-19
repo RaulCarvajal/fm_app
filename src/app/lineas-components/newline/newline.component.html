@@ -1,0 +1,75 @@
+<app-navbar></app-navbar>
+<div class="container">
+<hr>
+<hr> 
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Agregar a {{p_namestr}}</h5>
+            </div>
+            <form class="container" [formGroup]="lineForm" (ngSubmit)="save()">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="name"><span class="text-danger">*</span>Nombre</label>
+                      <input type="text" class="form-control" id="name" placeholder="Nombre" formControlName="name" (keyup)="setEnable()">
+                      <div *ngIf="lineForm.get('name').errors&&lineForm.get('name').dirty">
+                        <p *ngIf="lineForm.get('name').hasError('required')" class="text-danger">Nombre requerido</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group">                          
+                          <label for="name"><span class="text-danger">*</span>Nombre corto</label>
+                          <button type="button" class="btn btn-primary w-100" [disabled]="btnen" (click)="genShrName()">Sugerir</button>
+                        </div>
+                      </div>
+                      <div class="col-8">
+                        <div class="form-group">
+                          <label for="shortname">...</label>
+                          <input type="text" class="form-control" id="shortname" placeholder="Nombre corto(max 6 digitos)" formControlName="shortname" value="{{nombrecorto}}">
+                          <div *ngIf="lineForm.get('shortname').errors&&lineForm.get('shortname').dirty">
+                            <p *ngIf="lineForm.get('shortname').hasError('maxlength')" class="text-danger">Máximo 6 digitos</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="eName"><span class="text-danger">*</span>Descripción</label>
+                      <textarea class="form-control" id="eName" rows="3" placeholder="Descripción" formControlName="desc"></textarea>
+                      <div *ngIf="lineForm.get('desc').errors&&lineForm.get('desc').dirty">
+                        <p *ngIf="lineForm.get('desc').hasError('required')" class="text-danger">La descripción es requerida</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="pad1 w-100">
+                            <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="pad1 w-100">
+                            <button type="submit" class="btn btn-primary w-100" [disabled]="lineForm.invalid">Guardar</button>                    
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="saving">
+                  <mat-spinner class="mx-auto"></mat-spinner>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<hr>
+<hr>
+</div>
+<app-footer></app-footer>

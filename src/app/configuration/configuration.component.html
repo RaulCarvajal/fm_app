@@ -1,0 +1,105 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <hr><hr>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Panel de configuración de sistema</h5>
+      <hr>
+      <h6 class="lead card-subtitle mb-2 text-muted">Configuración de fecha</h6>
+      <p class="card-text">Esta opción permite que el usuario pueda registrar un servicio con fecha anterior a la actual.</p>
+      <div class="row">
+        <div class="col">
+          <br>
+          <h6 class="lead">Permitir fechas anteriores a la actual</h6>
+        </div>
+        <div class="col text-right">
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="fecAnt" (click)="change()">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+      <hr>
+      <h6 class="lead card-subtitle mb-2 text-muted">Tipos de servicios</h6>
+      <p class="card-text">Esta opción permite añadir o borrar tipos de servicios.</p>
+      <br>
+      <div class="row">
+        <div class="col">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Tipo de servicio</th>
+                <th scope="col" class="text-right">Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tipo of tipos">
+                <td>{{tipo.name}}</td>
+                <td class="text-right">
+                  <button mat-mini-fab color="danger" (click)="delTipo(tipo._id)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" *ngIf="!addserv">
+          <button class="btn btn-primary btn-width" (click)="addTipo()">Agregar nuevo</button>
+        </div>
+        <div class="col" *ngIf="addserv">
+          <form class="form-inline">
+            <div class="form-group" style="width: 400px">
+              <label for="tserv" class="sr-only">Tipo de servicio</label>
+              <input type="text" class="form-control w-100" id="tserv" placeholder="Ej. Calibración, Mantenimiento... Etc." [(ngModel)]="newTipo" [ngModelOptions]="{standalone: true}">
+            </div>
+            <button type="button" class="btn btn-primary mx-sm-3 btn-width" (click)="saveTipo()">Guardar</button>
+          </form>
+        </div>
+      </div>
+      <hr>
+
+      <h6 class="lead card-subtitle mb-2 text-muted">Nombre de espacios</h6>
+      <p class="card-text">Esta opción permite personalizar los nombres de los espacios en orden jerárquico. Por ejemplo, en un sistema de linea de produccíon tenemos:</p>
+      <ul>
+        <li>Plantas</li>
+        <li>Lineas</li>
+        <li>Equipos</li>
+      </ul>
+      <p class="card-text">que corresponden a Nivel 1, Nivel 2 y Nivel 3, en orden jerárquico, ya que una planta puede contener N cantidad de lineas y a su vez una línea puede contener N cantidad de equipos.</p>
+      <p class="card-text">En el formulario siguiente puedes personalizar los nombres de espacio dependiendo el contexto de tu negocio</p>
+      <form [formGroup]="fns" (ngSubmit)="update()">
+        <div class="row">
+          <div class="col">
+            <p class="card-text"><small>Escribir en singular. <i>P. Ej. Planta</i></small></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Nivel 1" formControlName="planta">
+            <div *ngIf="fns.get('planta').errors&&fns.get('planta').dirty">
+              <p *ngIf="fns.get('planta').hasError('required')" class="text-danger">Campo requerido</p>
+            </div>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Nivel 2" formControlName="linea">
+            <div *ngIf="fns.get('linea').errors&&fns.get('linea').dirty">
+              <p *ngIf="fns.get('linea').hasError('required')" class="text-danger">Campo requerido</p>
+            </div>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Nivel 3" formControlName="equipo">
+            <div *ngIf="fns.get('equipo').errors&&fns.get('equipo').dirty">
+              <p *ngIf="fns.get('equipo').hasError('required')" class="text-danger">Campo requerido</p>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3 btn-width" [disabled]="fns.invalid">Actualizar</button>
+      </form>
+    </div>
+  </div>
+  <hr><hr>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,338 @@
+<app-navbar></app-navbar>
+<div class="container" *ngIf="!load">
+<hr>
+<hr> 
+  <div class="row">
+      <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Ver contrato</h5>
+              
+              <h6 class="card-subtitle mb-2 text-muted">Nombre del contrato {{name}}</h6>
+              <div class="col">
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <h6 class="card-subtitle mb-2">Cliente y Equipos</h6>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Cliente</b></h6>
+                      <h6>{{cliente}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Fecha creación del contrato</b></h6>
+                      <h6>{{getDate(contrato.created)}}</h6>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <h6 class="card-subtitle mb-2">Información del contrato</h6>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Descripción</b></h6>
+                      <h6>{{desc}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Estatus</b></h6>
+                      <p>{{getStatus(estatus)}}</p>                        
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <h6 class="card-subtitle mb-2">Información del periodo del contrato</h6>
+                  </div>
+                </div>
+                <br>
+                <div class="row" *ngIf="contrato.period.single">
+                  <div class="col">
+                    <div>
+                      <h6><b>Contrato único</b></h6>
+                      <h6>El contrato solo será válido para un servicio EMG de cualquier tipo.</h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" *ngIf="!contrato.period.single">
+                  <div class="col">
+                    <div>
+                      <h6><b>Fecha de inicio</b></h6>
+                      <h6>{{getDate(contrato.period.start)}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div>
+                      <h6><b>Fecha de finalización</b></h6>
+                      <h6>{{getDate(contrato.period.end)}}</h6>                    
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <div>
+                      <h6><b>Montos del contrato</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div>
+                      <h6><b>Monto inicial o total</b></h6>
+                      <h6>${{contrato.monto}}.00</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div>
+                      <h6><b>Monto actual</b></h6>
+                      <h6 *ngIf="!superado">${{contrato.monto_actual}}.00</h6>                    
+                      <h6 class="text-danger" *ngIf="superado">${{contrato.monto_actual}}.00</h6>                    
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div>
+                      <h6><b>Divisa</b></h6>
+                      <h6>{{contrato.divisa}}</h6>                    
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <div>
+                      <h6><b>Conceptos de cobro incluidos en esté contrato</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div>
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Precio en {{contrato.divisa}}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let concepto of contrato.conceptos; let ind = index">
+                            <td scope="row">{{ind+1}}</td>
+                            <td>{{concepto.codigo}}</td>
+                            <td>{{concepto.descripcion}}</td>
+                            <td>${{concepto.precio}}</td>
+                          </tr>
+                        </tbody>
+                      </table>               
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+                <div class="row" *ngIf="!servicios.length > 0">
+                  <div class="col">
+                    <div>
+                      <h6><b>Servicios realizados dentro de esté contrato</b></h6>
+                      <br>
+                      <h6>Aún no se realizan servicio dentro de este contrato</h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" *ngIf="servicios.length > 0">
+                  <div class="col">
+                    <div>
+                      <h6><b>Servicios registrados dentro de esté contrato</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" *ngIf="servicios.length > 0">
+                  <div class="col">
+                    <div>
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Activo</th>
+                            <th scope="col">Técnico</th>
+                            <th scope="col">Fecha programada</th>
+                            <th scope="col">Estatus</th>
+                            <th scope="col">Detalle</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let servicio of servicios; let pind = Index">
+                            <td scope="row">{{getId(servicio._id)}}</td>
+                            <td>{{getEmg(servicio.emg)}}</td>
+                            <td>{{getTecnico(servicio.tecnico)}}</td>
+                            <td>{{getDate(servicio.date)}}</td>
+                            <td>{{getStatusService(servicio.status)}}</td>
+                            <td>
+                              <button mat-mini-fab class="bg-primary" (click)="viewService(servicio._id)" data-toggle="tooltip" data-placement="left" title="Ver detalle">
+                                  <mat-icon>pageview</mat-icon>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>               
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-left display-4">Estadísticas </h1><small>Actualizado hoy a las hora </small>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="card">
+              <div class="card-body">
+                  <p class="card-title">
+                      Pendientes
+                  </p>
+                  <div class="text-center">
+                    <p class="display-4">{{SP}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="card">
+              <div class="card-body">
+                  <p class="card-title">
+                      Finalizados
+                  </p>
+                  <div class="text-center">
+                    <p class="display-4">{{SF}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="card">
+              <div class="card-body">
+                  <p class="card-title">
+                      Totales
+                  </p>
+                  <div class="text-center">
+                    <p class="display-4">{{ST}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="card w-100">
+            <div class="card-body">
+                <p class="card-title">
+                    Satisfacción del cliente
+                </p>
+                <div *ngIf="ldchart">
+                  <canvas baseChart 
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    [plugins]="barChartPlugins"
+                    [legend]="barChartLegend"
+                    [chartType]="barChartType"
+                    [colors]="chartColors">
+                  </canvas>
+                </div>
+                <div *ngIf="!ldchart">
+                    <p class="lead text-center">Aún no se cuenta con la información necesaria para llenar esta gráfica</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="card w-100">
+            <div class="card-body" *ngIf="!superado">
+                <p class="card-title">
+                    Cantidades
+                </p>
+                <div>
+                    <mat-progress-bar mode="determinate" value="{{((contrato.monto-contrato.monto_actual)/contrato.monto)*100}}" ></mat-progress-bar>
+                </div>
+                <hr>
+                <p class="card-title">
+                      Gastado
+                </p>
+                <div class="text-center">
+                    <p class="display-4">${{contrato.monto-contrato.monto_actual}}.00</p>
+                </div>
+                <p class="card-title">
+                      Restante
+                </p>
+                <div class="text-center">
+                    <p class="display-4">${{contrato.monto_actual}}.00</p>
+                </div>
+            </div>
+            <div class="card-body" *ngIf="superado">
+              <p class="card-title">
+                Cantidades
+              </p>
+              <div>
+                  <mat-progress-bar mode="determinate" value="100" class="text-danger"></mat-progress-bar>
+              </div>
+              <p class="card-title text-center text-danger">
+                <strong>El monto del contrato fué superado.</strong>
+              </p>
+            </div>
+        </div>
+    </div>
+  </div>
+  <hr>
+  <div class="card">
+      <div class="card-body">
+        <div class="row" style="padding-bottom: 0px">
+          <div class="col">
+            <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+          </div>
+          <div class="col">
+            <a role="button" class="btn btn-primary w-100" routerLink="/contratos/editar/{{activatedRoute.snapshot.paramMap.get('id')}}" routerLinkActive="active">Editar</a>
+          </div>
+          <div class="col">
+            <button type="button" class="btn btn-warning w-100" (click)="vencerContrato()" [disabled]="!contrato.status">Marcar contrato como vencido</button>
+          </div>
+        </div>
+      </div>
+  </div>
+<hr>
+<hr>
+</div>
+<div class="container" *ngIf="load">
+  <div class="row">
+    <div class="col text-center">
+      <p class="lead">CARGANDO</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-spinner class="mx-auto"></mat-spinner>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

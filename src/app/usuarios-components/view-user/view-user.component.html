@@ -1,0 +1,106 @@
+<app-navbar></app-navbar>
+<div class="container">
+<hr>
+<hr>
+<div class="row" *ngIf="load">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body" *ngIf="!im">
+                <h5 class="card-title">Ver usuario a detalle</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{user.info.name}}</h6>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <h6 class="card-subtitle">
+                            Información de inicio de sesión y datos personales
+                        </h6>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <p class="card-text"><b>Nombre: </b><br> {{user.info.name}}</p>
+                    </div>
+                    <div class="col">
+                        <p class="card-text"><b>Correo: </b><br> {{user.info.email}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <p class="card-text"><b>Username: </b><br> <span>{{user.username}}</span></p>
+                    </div>
+                    <div class="col">
+                        <p class="card-text"><b>Contraseña:  </b><br> {{replacePassword(user.password)}}</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <h6 class="card-subtitle">
+                            Otra información de usuario
+                        </h6>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <p class="card-text"><b>Registrado por: </b><br> {{reg_bystr}}</p>
+                    </div>
+                    <div class="col">
+                        <p class="card-text"><b>Día de registro: </b><br> {{reg_date}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <p class="card-text"><b>Rol: </b><br> <span>{{getRol(user.role)}}</span></p>
+                    </div>
+                    <div class="col">
+                        <p class="card-text"><b>Estatus:  </b><br> {{getStatus(user.active)}}</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="pad1 w-100">
+                            <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="pad1 w-100">
+                            <button type="button" class="btn btn-warning w-100" (click)="actDes()">{{isActivatedStr(user.active)}}</button>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="pad1 w-100">
+                            <button type="button" class="btn btn-primary w-100" (click)="gotoActualizar()">Actualizar</button>                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body" *ngIf="im">
+                <h5 class="card-title">El usuario que quieres visualizar te pertenece</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Si deseas modificar tus datos da click <a [routerLink]="['../../micuenta']">aqui</a></h6>
+                <div class="row pad1">
+                    <div class="col-4">
+                        <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!load">
+    <div class="row">
+        <p class="lead mx-auto">CARGANDO</p>
+    </div>
+    <div class="row">
+        <mat-spinner class="mx-auto"></mat-spinner>
+    </div>
+</div>
+<hr>
+<hr>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,61 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <hr>
+  <div class="row">
+    <div class="col">
+      <h2 class="text-left">{{pnp}}</h2>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <h5 class="text-center">Filtrar</h5>
+    </div>
+  </div>  
+  <div class="row">
+    <div class="col-3">
+      <h6 class="text-left">Buscar por nombre de {{pns}}</h6>
+    </div>
+    <div class="col-3 text-right">
+      <input type="text" class="form-control form-control-sm" placeholder="Nombre de la {{pns}}" [(ngModel)]="busq" [ngModelOptions]="{standalone: true}" (keyup)="busqueda()">
+    </div>
+  </div>
+  <hr>
+  <hr>
+  <br>
+  <div *ngIf="load">
+    <div class="row text-center"><!--asda-->
+      <div class="col-12">
+          <table class="table table-striped" *ngIf="!vacio()">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Nombre corto</th>
+                  <th scope="col">Jefe de {{pns}}</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">{{lnp}}</th>
+                  <th scope="col">Detalle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pnt of planta">
+                  <td scope="row">{{pnt.name}}</td>
+                  <td>{{pnt.code}}</td>
+                  <td>{{pnt.boss.name}}</td>
+                  <td>{{pnt.boss.email}}</td>
+                  <td>{{pnt.lines.length}}</td>
+                  <td>
+                      <button mat-mini-fab class="bg-primary" (click)="plantDet(pnt._id)">
+                          <mat-icon>pageview</mat-icon>
+                      </button>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+          <h2 *ngIf="vacio()">No existen {{pnp}} con los criterios de búsqueda</h2>
+      </div>
+    </div>
+  </div>
+  <hr><hr>
+</div>
+<app-footer></app-footer>

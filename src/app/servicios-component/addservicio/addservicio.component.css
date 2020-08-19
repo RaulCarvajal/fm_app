@@ -1,0 +1,6 @@
+.bor { 
+    border: 1px;
+    border-style: solid;
+    border-color: rgb(191, 193, 196);
+    border-radius: 5px;
+}

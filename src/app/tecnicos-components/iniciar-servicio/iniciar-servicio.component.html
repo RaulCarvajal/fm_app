@@ -1,0 +1,480 @@
+<app-navbar></app-navbar>
+<div class="container" *ngIf="cargando">
+<hr>
+<hr> 
+  <div class="row">
+      <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Ver servicio</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Id del servicio {{getId(servicio._id)}}</h6> 
+              <div class="col">
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <h6 class="card-subtitle mb-2">Información de solicitud</h6>
+                  </div>
+                </div> 
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Solicitado por</b></h6>
+                      <h6>{{requestby}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Empresa</b></h6>
+                      <h6>{{empresa}}</h6>                         
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Fecha programada</b></h6>
+                      <h6>{{getDate(servicio.date)}}</h6>                        
+                    </div>
+                  </div>
+                </div>
+                <br> 
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Equipo</b></h6>
+                      <h6>{{emg}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Nombre de técnico</b></h6>
+                      <h6 *ngIf="stat0" class="text-danger">Falta asignar técnico</h6>
+                      <h6>{{tec}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Contrato</b></h6>
+                      <h6>{{nombre_contrato}}</h6>                        
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <h6 class="card-subtitle mb-2">Información del servicio</h6>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Tipo de servicio</b></h6>
+                      <h6>{{servicio.type}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Estado del servicio</b></h6>
+                      <h6>{{status}}</h6>                        
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Trabajo a realizar</b></h6>
+                      <p>{{servicio.desc}}</p>                        
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row" *ngIf="proceso"><!--proceso-->
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Fecha de inicio</b></h6>
+                      <h6>{{getDate(servicio.start)}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Fecha de finalización</b></h6>
+                      <h6>{{getDate(servicio.finish)}}</h6>                        
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row" *ngIf="proceso"><!--proceso-->
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Observaciones del servicio</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row" *ngIf="proceso">
+                  <div class="col">
+                    <h6><b>Tipo de sensor</b></h6>
+                    <h6>{{servicio.service_details.tipo_sensor}}</h6> 
+                  </div>
+                  <div class="col">
+                    <h6><b>Tipo de controlador</b></h6>
+                    <h6>{{servicio.service_details.tipo_controlador}}</h6> 
+                  </div>
+                  <div class="col">
+                    <h6><b>Tipo de programa</b></h6>
+                    <h6>{{servicio.service_details.programa}}</h6> 
+                  </div>
+                </div>
+                <br>
+                <div class="row" *ngIf="proceso"><!--proceso-->
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Trabajo realizado</b></h6>
+                      <p class="text-justify">{{servicio.observ.trabajo_realizado}}</p>                        
+                    </div>
+                  </div> 
+                </div>
+                <div class="row" *ngIf="proceso"><!--proceso-->                
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Comentarios</b></h6>
+                      <p class="text-justify">{{servicio.observ.comentarios}}</p>                        
+                    </div>
+                  </div>
+                </div>
+                <div class="row" *ngIf="proceso"><!--proceso-->
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Recomendaciones</b></h6>
+                      <p class="text-justify">{{servicio.observ.recomendaciones}}</p>                        
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="proceso"><!--proceso-->
+                  <div class="col">
+                      <h6><b>Enlaces adjuntos</b></h6>
+                      <h6 *ngIf="servicio.enlaces.length == 0 || servicio.enlaces == 0">Sin enlaces adjuntos</h6>
+                      <ul *ngIf="servicio.enlaces.length > 0">
+                        <li *ngFor="let enlace of enlaces">
+                          <a href="{{enlace}}">{{enlace}}</a>
+                        </li>
+                      </ul> 
+                  </div> 
+                </div>
+                
+                <div class="row" *ngIf="proceso && autorizado">
+                  <div class="col">
+                    <h6><b>Autorización del servicio</b></h6>
+                  </div>
+                </div>
+                <div class="row" *ngIf="proceso && autorizado">
+                  <div class="col"> 
+                    <div class="">
+                      <h6>Firma del cliente</h6>
+                      <img src="{{servicio.signature}}" class="w-100 img-fluid">                       
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="row text-center">
+                      <h6>Satisfacción del cliente</h6>                     
+                    </div>
+                    <div class="row text-center">
+                      <div class="col" *ngIf="malac">
+                        <img [src]="mala" class="img-fluid" style="width: 100px; height: 100px;">                       
+                      </div>
+                      <div class="col" *ngIf="regularc">
+                        <img [src]="regular" class="img-fluid" style="width: 100px; height: 100px;">
+                      </div>
+                      <div class="col" *ngIf="buenac">
+                        <img [src]="buena" class="img-fluid" style="width: 100px; height: 100px;">
+                      </div>
+                    </div>
+                    <div class="col text-center">
+                      <h4>{{scoretext}}</h4>
+                    </div>
+                    <div class="col text-center">
+                      <small class="text-muted">El rango de evalución se basa en Mala, Buena y Excelente experiencia</small>
+                    </div>
+                  </div>
+                <br>
+                </div>
+
+                <div class="row" *ngIf="proceso && autorizado">
+                  <div class="col">
+                    <h6><b>Autorizado por :</b></h6>
+                    <h6>{{authby}}</h6>
+                  </div>
+                </div>
+                <hr>
+
+                <br><br>
+                <div class="row" style="padding-bottom: 0px">
+                  <div class="col">
+                    <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                  </div>
+                  <div class="col">
+                    <button type="button" class="btn btn-danger w-100" (click)="getPdf()" [disabled]="!proceso">Descargar reporte(PDF)</button>
+                  </div>
+                  <div class="col" *ngIf="stat1">
+                    <button type="button" class="btn btn-success w-100" data-toggle="modal" data-target="#alertModal">
+                      Iniciar servicio
+                    </button>
+                  </div>
+                  <div class="col" *ngIf="stat2">
+                    <button type="button" class="btn btn-warning w-100" data-toggle="modal" data-target="#finalModal">
+                      Finalizar servicio
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+<hr>
+<hr>
+</div>
+
+<div class="container" *ngIf="!cargando">
+  <div class="row">
+    <div class="col text-center">
+      <p class="lead">CARGANDO</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-spinner class="mx-auto"></mat-spinner>
+    </div>
+  </div>
+</div>  
+<app-footer></app-footer>
+
+<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" *ngIf="cargando">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Iniciar servicio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Iniciar servicio?</p>
+        <p class="text-muted">Al iniciar el servicio se tomará como hora de inicio la siguiente, en caso de que sea incorrecta, por favor modificarla.</p>
+        <div class="">
+          <div class="form-group">
+            <label for="date">Fecha y hora de inicio</label>
+            <input type="datetime-local" class="form-control form-control-sm" id="date" [(ngModel)]="date" min="{{minDate}}" max="{{maxDate}}">
+          </div>
+        </div> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="inciarServicio()" data-dismiss="modal" style="width: 50px;">Si</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width: 50px;">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="finalModal" tabindex="-1" role="dialog" *ngIf="cargando">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Finalizar servicio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container" *ngIf="!guardando">
+          <div class="row">
+            <div class="col">
+              <h1 class="display-4">Información del servicio realizado</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <form [formGroup]="finalizarForm" (ngSubmit)="finalizarServicio()">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="ts"><span class="text-danger">*</span>Tipo sensor</label>
+                      <input type="text" class="form-control form-control-sm" id="ts" formControlName="tipo_sensor" (change)="getServiceHours()">
+                      <div *ngIf="finalizarForm.get('tipo_sensor').errors&&finalizarForm.get('tipo_sensor').dirty">
+                        <p *ngIf="finalizarForm.get('tipo_sensor').hasError('required')" class="text-danger">Campo requerido</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="tc"><span class="text-danger">*</span>Tipo controlador</label>
+                      <input type="text" class="form-control form-control-sm" id="tc" formControlName="tipo_controlador">
+                      <div *ngIf="finalizarForm.get('tipo_controlador').errors&&finalizarForm.get('tipo_controlador').dirty">
+                        <p *ngIf="finalizarForm.get('tipo_controlador').hasError('required')" class="text-danger">Campo requerido</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="pr"><span class="text-danger">*</span>Programa</label>
+                      <input type="text" class="form-control form-control-sm" id="pr" formControlName="programa">
+                      <div *ngIf="finalizarForm.get('programa').errors&&finalizarForm.get('programa').dirty">
+                        <p *ngIf="finalizarForm.get('programa').hasError('required')" class="text-danger">Campo requerido</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="tr"><span class="text-danger">*</span>Trabajo realizado</label>
+                    <textarea class="form-control form-control-sm" id="tr" rows="3" formControlName="trabajo_realizado"></textarea>
+                    <div *ngIf="finalizarForm.get('trabajo_realizado').errors&&finalizarForm.get('trabajo_realizado').dirty">
+                      <p *ngIf="finalizarForm.get('trabajo_realizado').hasError('required')" class="text-danger">Campo requerido</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="co"><span class="text-danger">*</span>Comentarios</label>
+                    <textarea class="form-control form-control-sm" id="co" rows="3" formControlName="comentarios"></textarea>
+                    <div *ngIf="finalizarForm.get('comentarios').errors&&finalizarForm.get('comentarios').dirty">
+                      <p *ngIf="finalizarForm.get('comentarios').hasError('required')" class="text-danger">Campo requerido</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="re"><span class="text-danger">*</span>Recomendaciones</label>
+                    <textarea class="form-control form-control-sm" id="re" rows="3" formControlName="recomendaciones"></textarea>
+                    <div *ngIf="finalizarForm.get('recomendaciones').errors&&finalizarForm.get('recomendaciones').dirty">
+                      <p *ngIf="finalizarForm.get('recomendaciones').hasError('required')" class="text-danger">Campo requerido</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label for="re">Enlace a archivos en la nube(Dropbox, GDrive, etc...)</label>
+                  <textarea class="form-control form-control-sm" id="re" rows="3" formControlName="enlaces"></textarea>
+                  <small class="text-muted">Si son varios enlaces, separar por coma.</small>
+                  <div *ngIf="finalizarForm.get('enlaces').errors&&finalizarForm.get('enlaces').dirty">
+                    <p *ngIf="finalizarForm.get('enlaces').hasError('required')" class="text-danger">Campo requerido</p>
+                  </div>
+              </div>
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <p><b>Inicio y fin del servicio</b></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="date_ini">Fecha y hora de inicio</label>
+                      <small class="text-muted"> (La hora de inico registrada es la siguiente, en caso de que sea incorrecta, por favor modificarla.)</small>
+                      <input type="datetime-local" class="form-control form-control-sm" id="date_ini" formControlName="date_ini" min="{{minDate}}" max="{{maxDate}}" (change)="getServiceHours()">
+                    </div>
+                    <div *ngIf="finalizarForm.get('date_ini').errors&&finalizarForm.get('date_ini').dirty">
+                      <p *ngIf="finalizarForm.get('date_ini').hasError('required')" class="text-danger">Campo requerido</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="date">Fecha y hora de finalización</label>
+                      <small class="text-muted"> (Al finalizar el servicio se tomará como hora de fin la siguiente, en caso de que sea incorrecta, por favor modificarla.)</small>
+                      <input type="datetime-local" class="form-control form-control-sm" id="date" formControlName="date" min="{{minDate}}" max="{{maxDate}}" (change)="getServiceHours()">
+                    </div>
+                    <div *ngIf="finalizarForm.get('date').errors&&finalizarForm.get('date').dirty">
+                      <p *ngIf="finalizarForm.get('date').hasError('required')" class="text-danger">Campo requerido</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>Horas totales del servicio: {{hours}} horas</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <p><b>Asignación de horas por concepto del contrato.</b></p>
+                    <p>Horas totales del servicio: {{hours}} horas</p>
+                  </div>
+                </div>
+
+                <div formArrayName="conceptos">
+                  <div *ngFor="let item of getConceptos.controls; let pind = index" [formGroupName]="pind">
+                  
+                    <div class="row">
+                      <div class="col-1">
+                        <div class="form-group">
+                          <div class="form-group">
+                            <label for="codigo">Id</label>
+                            <input type="text" readonly class="form-control-plaintext" id="codigo" value="{{pind+1}}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-5">
+                        <div class="form-group">
+                          <div class="form-group">
+                            <label for="codigo">Código</label>
+                            <input type="text" readonly class="form-control-plaintext" id="codigo" formControlName="codigo" >
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <div class="form-group">
+                          <label for="precio">Precio</label>
+                          <input type="text" readonly class="form-control-plaintext" id="precio" formControlName="precio" >
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <div class="form-group">
+                          <label for="horas"><span class="text-danger">*</span>Horas - {{getConceptos.value[pind].horas}}</label>
+                          <input type="range" class="custom-range" min="0" max="{{hours}}" step="1" id="horas" formControlName="horas" (change)="getTotal(pind)">
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <div class="form-group">
+                          <label for="subtotal">Subtotal</label>
+                          <input type="text" readonly class="form-control-plaintext" id="subtotal" formControlName="subtotal" value="{{getSubtotal(pind)}}">
+                        </div>
+                      </div>
+                    </div>
+                  
+                  </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <div class="form-group">
+                        <label for="total">Total en {{contrato.divisa}}</label>
+                        <input type="text" readonly class="form-control-plaintext" id="total" formControlName="total">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <br>
+                <button type="submit" class="btn btn-primary w-100" [disabled]="finalizarForm.invalid == maxHoras">Guardar servicio</button>
+              </form>
+            </div>
+          </div>      
+        </div>
+        <div class="container" *ngIf="guardando">
+          <div class="row">
+            <div class="col text-center">
+              <p class="lead">CERRANDO SERVICIO</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-spinner class="mx-auto"></mat-spinner>
+            </div>
+          </div>
+        </div>      
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="close-modal" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

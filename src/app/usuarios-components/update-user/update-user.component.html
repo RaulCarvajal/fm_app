@@ -1,0 +1,100 @@
+<app-navbar></app-navbar>
+<div class="container">
+<hr>
+<hr>
+<div class="row">
+    <div class="col-12">
+        <div class="card" *ngIf="!load">
+            <div class="card-body">
+                <h5 class="card-title">Editar usuario</h5>
+            </div>
+            <form class="container" [formGroup]="userForm" (ngSubmit)="guardarUsuario()">
+                <div class="row">
+                  <div class="col">
+                      <div class="form-group">
+                          <label for="name"><span class="text-danger">*</span>Nombre</label>
+                          <input type="text" class="form-control form-control-sm" id="name" placeholder="Nombre del nuevo" formControlName="name">
+                          <div *ngIf="userForm.get('name').errors&&userForm.get('name').dirty">
+                            <p *ngIf="userForm.get('name').hasError('required')" class="text-danger">El nombre es requerido</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col">
+                      <div class="form-group">
+                          <label for="email"><span class="text-danger">*</span>Email</label>
+                          <input type="email" class="form-control form-control-sm" id="email" placeholder="Email de usuario" formControlName="email">
+                          <div *ngIf="userForm.get('email').errors&&userForm.get('email').dirty">
+                            <p *ngIf="userForm.get('email').hasError('required')" class="text-danger">El email es requerido</p>
+                            <p *ngIf="userForm.get('email').hasError('email')" class="text-danger">Debe ser un email</p>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                      <div class="form-group">
+                          <label for="inputState"><span class="text-danger">*</span>Rol</label>
+                          <select id="inputState" class="form-control form-control-sm" formControlName="role" (change)="isClientToggle()">
+                            <option *ngFor="let o of options" value="{{o.id}}">{{o.name}}</option>
+                          </select>
+                          <div *ngIf="userForm.get('role').errors&&userForm.get('role').dirty">
+                            <p *ngIf="userForm.get('role').hasError('required')" class="text-danger">El nombre es requerido</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col" *ngIf="isClient">
+                        <div class="form-group">
+                            <label for="inputState"><span class="text-danger">*</span>Empresa a la que pertenece</label>
+                            <select id="inputState" class="form-control form-control-sm" formControlName="empresa">
+                              <option *ngFor="let empresa of empresas" value="{{empresa._id}}">{{empresa.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                      <div class="form-group">
+                          <label for="username"><span class="text-danger">*</span>Usuario</label>
+                          <input type="text" class="form-control form-control-sm" id="username" placeholder="Usuario" formControlName="usr" (focusout)="existeUsuario()">
+                      </div>
+                  </div>
+                  <div class="col">
+                      <div class="form-group">
+                          <label for="pass"><span class="text-danger">*</span>Contraseña</label>
+                          <input type="text" class="form-control form-control-sm" id="pass" placeholder="Contraseña" formControlName="psw">
+                      </div>
+                  </div>
+                </div>
+                <br><br>
+                <div class="row" style="margin-bottom: 15px;">
+                    <div class="col-4">
+                        <div class="pad1 w-100">
+                            <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="pad1 w-100">
+                            <button type="submit" class="btn btn-primary w-100" [disabled]="userForm.invalid">Guardar</button>                    
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card" *ngIf="load">
+          <div class="row">
+            <div class="col text-center">
+              <p class="lead">CARGANDO</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-spinner class="mx-auto"></mat-spinner>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+<hr>
+<hr>
+</div>
+<app-footer></app-footer>

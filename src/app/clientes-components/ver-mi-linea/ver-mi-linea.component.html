@@ -1,0 +1,56 @@
+<app-navbar></app-navbar>
+<div class="container">
+<hr>
+<hr>
+  <div class="row">
+      <div class="col-12">
+          <div class="card container">
+              <div class="card-body">
+                  <h5 class="card-title">Ver {{nsls}}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Nombre de {{nsps}} {{planta.name}}</h6>
+              </div> 
+              <div class="container">
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Nombre de {{nsls}}</b></h6>
+                      <h6>{{nombre}}</h6>                        
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Nombre corto</b></h6>
+                      <h6>{{ncorto}}</h6>                        
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col">
+                      <div class="">
+                        <h6><b>Descripción de la {{nsls}}</b></h6>
+                        <h6>{{desc}}</h6>                        
+                      </div>
+                  </div>
+                </div>
+                <hr>
+                <br>
+                <div class="row pad1">
+                  <div class="col-4">
+                    <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                  </div>
+                </div>
+                <br>
+              </div>
+              <br>
+          </div>
+      </div>
+  </div>
+<hr>
+<hr>
+</div>
+<app-footer></app-footer>

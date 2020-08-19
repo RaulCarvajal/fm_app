@@ -1,0 +1,56 @@
+<app-navbar></app-navbar>
+<div class="container">
+<hr>
+<hr> 
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Agregar empresa</h5>
+            </div>
+            <form class="container" [formGroup]="empresaForm" (ngSubmit)="save()">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="name"><span class="text-danger">*</span>Nombre empresa</label>
+                      <input type="text" class="form-control" id="name" placeholder="Ejemplo: AHMSA" formControlName="name">
+                      <div *ngIf="empresaForm.get('name').errors&&empresaForm.get('name').dirty">
+                        <p *ngIf="empresaForm.get('name').hasError('required')" class="text-danger">Nombre requerido</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="name"><span class="text-danger">*</span>Nombre largo ó descripción</label>
+                          <input type="text" class="form-control" id="name" placeholder="Ejemplo: Altos hornos de México SA." formControlName="description">
+                          <div *ngIf="empresaForm.get('description').errors&&empresaForm.get('description').dirty">
+                            <p *ngIf="empresaForm.get('description').hasError('required')" class="text-danger">Nombre requerido</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="pad1 w-100">
+                            <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="pad1 w-100">
+                            <button type="submit" class="btn btn-primary w-100" [disabled]="empresaForm.invalid">Guardar</button>                    
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+        </div>
+    </div>
+</div>
+<hr>
+<hr>
+</div>
+<app-footer></app-footer>

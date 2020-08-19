@@ -1,0 +1,327 @@
+<app-navbar></app-navbar>
+<div class="container" *ngIf="!load">
+<hr>
+<hr> 
+  <div class="row">
+      <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Ver servicio</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Id del servicio {{getId(servicio._id)}}</h6>
+              <div class="col">
+
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <h6 class="card-subtitle mb-2">Información de solicitud</h6>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Solicitado por</b></h6>
+                      <h6>{{requestby}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Empresa</b></h6>
+                      <h6>{{empresa}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Fecha programada</b></h6>
+                      <h6>{{getDate(servicio.date)}}</h6>                        
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>{{nses}}</b></h6>
+                      <h6>{{emg}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Nombre de técnico</b></h6>
+                      <h6 *ngIf="stat0" class="text-danger">Falta asignar técnico</h6>
+                      <h6>{{tec}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Contrato</b></h6>
+                      <h6>{{contrato}}</h6>                        
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <hr>
+
+                <div class="row card" *ngIf="stat0">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="tecnico"><span class="text-danger">*</span>Técnico a asignar</label>
+                      <select class="form-control form-control-sm" id="tecnico" [(ngModel)]="tec_id" (change)="enBut()">
+                        <option *ngFor="let tecnico of tecnicos" value="{{tecnico._id}}">{{tecnico.info.name}}</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="nfecnue"><span class="text-danger">*</span>Fecha y hora solicitadas <small class="text-muted">Puedes cambiarlo dependiendo de la disponibilidad del técnico.</small> </label>
+                      <input class="form-control form-control-sm" type="datetime-local" id="nfecnue" [(ngModel)]="nfec" (change)="showf()" min="{{minDate}}" max="{{maxDate}}">
+                    </div>
+                    <button class="btn btn-primary" [disabled]="btnen" (click)="asigTec()">Asignar y programar</button>
+                    <small class="text-muted" *ngIf="!msg">Al asignar el técnico, se le enviara un correo notificandole que se le asigno un servicio a realizar.</small>
+                  </div>
+                  <br>
+                </div>
+                <hr>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <h6 class="card-subtitle mb-2">Información del servicio</h6>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Tipo de servicio</b></h6>
+                      <h6>{{servicio.type}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Estado del servicio</b></h6>
+                      <h6>{{status}}</h6>                        
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Trabajo a realizar</b></h6>
+                      <p>{{servicio.desc}}</p>                        
+                    </div>
+                  </div>
+                <br>
+                </div>
+
+                <div class="row" *ngIf="proceso">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Fecha de inicio</b></h6>
+                      <h6>{{getDate(servicio.start)}}</h6>                        
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Fecha de finalización</b></h6>
+                      <h6>{{getDate(servicio.finish)}}</h6>                        
+                    </div>
+                  </div>
+                </div>
+                <hr>
+
+                <div class="row" *ngIf="proceso">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Observaciones del servicio</b></h6>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row" *ngIf="proceso">
+                  <div class="col">
+                    <h6><b>Tipo de sensor</b></h6>
+                    <h6>{{servicio.service_details.tipo_sensor}}</h6> 
+                  </div>
+                  <div class="col">
+                    <h6><b>Tipo de controlador</b></h6>
+                    <h6>{{servicio.service_details.tipo_controlador}}</h6> 
+                  </div>
+                  <div class="col">
+                    <h6><b>Tipo de programa</b></h6>
+                    <h6>{{servicio.service_details.programa}}</h6> 
+                  </div>
+                </div>
+                <br>
+
+                <div class="row" *ngIf="proceso">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Trabajo realizado</b></h6>
+                      <p class="text-justify">{{servicio.observ.trabajo_realizado}}</p>                        
+                    </div>
+                  </div> 
+                </div>
+
+                <div class="row" *ngIf="proceso">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Comentarios</b></h6>
+                      <p class="text-justify">{{servicio.observ.comentarios}}</p>                        
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="proceso">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Recomendaciones</b></h6>
+                      <p class="text-justify">{{servicio.observ.recomendaciones}}</p>                        
+                    </div>
+                  </div>
+                </div>
+                <!--
+                <div class="row" *ngIf="proceso">
+                  <div class="col">
+                      <h6><b>Enlaces adjuntos</b></h6>
+                      <h6 *ngIf="servicio.enlaces.length == 0 || servicio.enlaces == 0">Sin enlaces adjuntos</h6>
+                      <ul *ngIf="servicio.enlaces.length > 0">
+                        <li *ngFor="let enlace of enlaces">
+                          <a href="{{enlace}}">{{enlace}}</a>
+                        </li>
+                      </ul> 
+                  </div> 
+                </div>
+                -->
+                <div class="row" *ngIf="proceso">
+                  <div class="col">
+                    <div class="">
+                      <h6><b>Precio de la provisión de servicio por conceptos</b></h6>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="proceso">
+                  <div class="col">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Código</th>
+                          <th scope="col">Descripcion</th>
+                          <th scope="col">Horas</th>
+                          <th scope="col">Precio</th>
+                          <th scope="col">Subtotal</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let concepto of servicio.conceptos">
+                          <th scope="row">{{concepto.codigo}}</th>
+                          <td>{{concepto.descripcion}}</td>
+                          <td class="text-right">{{concepto.horas}}</td>
+                          <td class="text-right">${{concepto.precio}}</td>
+                          <td class="text-right">${{concepto.subtotal}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row" *ngIf="proceso">
+                  <div class="col text-left">
+                    <p><b>Total de horas del servicio:</b>  {{servicio.hours}} horas</p>
+                  </div>
+                  <div class="col text-right">
+                    <p><b>Total({{servicio.payment.divisa}}):</b>  ${{servicio.payment.total}}</p>
+                  </div>
+                  <hr>
+                </div>
+                
+                <div class="row" *ngIf="proceso && autorizado">
+                  <div class="col">
+                    <h6><b>Autorización del servicio</b></h6>
+                  </div>
+                </div>
+                <div class="row" *ngIf="proceso && autorizado">
+                  <div class="col"> 
+                    <div class="">
+                      <h6>Firma del cliente</h6>
+                      <img src="{{servicio.signature}}" class="w-100 img-fluid">                       
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="row text-center">
+                      <h6>Satisfacción del cliente</h6>                     
+                    </div>
+                    <div class="row text-center">
+                      <div class="col" *ngIf="malac">
+                        <img [src]="mala" class="img-fluid" style="width: 100px; height: 100px;">                       
+                      </div>
+                      <div class="col" *ngIf="regularc">
+                        <img [src]="regular" class="img-fluid" style="width: 100px; height: 100px;">
+                      </div>
+                      <div class="col" *ngIf="buenac">
+                        <img [src]="buena" class="img-fluid" style="width: 100px; height: 100px;">
+                      </div>
+                    </div>
+                    <div class="col text-center">
+                      <h4>{{scoretext}}</h4>
+                    </div>
+                    <div class="col text-center">
+                      <small class="text-muted">El rango de evalución se basa en Mala, Buena y Excelente experiencia</small>
+                    </div>
+                  </div>
+                <br>
+                </div>
+
+                <div class="row" *ngIf="proceso && autorizado">
+                  <div class="col">
+                    <h6><b>Autorizado por :</b></h6>
+                    <h6>{{authby}}</h6>
+                  </div>
+                </div>
+                <hr>
+                <div class="row" style="padding-bottom: 15px">
+                  <div class="col">
+                    <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                  </div>
+                  <div class="col">
+                    <button type="button" class="btn btn-danger w-100" (click)="getPdf()" [disabled]="!(proceso&&autorizado)">Descargar reporte(PDF)</button>
+                  </div>
+                  <div class="col">
+                    <button type="button" class="btn btn-danger w-100" [disabled]="!(proceso&&autorizado)" (click)="getRemito()">Descargar remito(PDF)</button>
+                  </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 0px" *ngIf="btnAuth">
+                  <div class="col-4"> 
+                    <button type="button" class="btn btn-primary w-100" (click)="autorizar()">Autorizar servicio</button>
+                  </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 0px; margin-top: 15px;" *ngIf="false">
+                  <div class="col-4">
+                    <button type="button" class="btn btn-primary w-100" (click)="gotoActualizar()">Actualizar</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+<hr>
+<hr>
+</div>
+<div class="container" *ngIf="load">
+  <div class="row">
+    <div class="col text-center">
+      <p class="lead">CARGANDO</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-spinner class="mx-auto"></mat-spinner>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

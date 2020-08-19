@@ -1,0 +1,101 @@
+<app-navbar></app-navbar>
+<div class="container">
+<hr>
+<hr>
+<div class="row"> 
+    <div class="col-12">
+        <div class="card" *ngIf="!cargando">
+            <div class="card-body">
+                <h5 class="card-title">Editar</h5>
+            </div>
+            <form class="container"  [formGroup]="plantaForm" (ngSubmit)="save()">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="client"><span class="text-danger">*</span>Nombre del cliente</label>
+                      <select id="client" class="form-control form-control-sm" formControlName="client" readonly>
+                        <option *ngFor="let c of clients" value="{{c._id}}">{{c.name}}</option>
+                      </select>
+                      <div *ngIf="plantaForm.get('client').errors&&plantaForm.get('client').dirty">
+                        <p *ngIf="plantaForm.get('client').hasError('required')" class="text-danger">Seleccione un cliente</p>
+                      </div>
+                    </div>
+                  </div> 
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="name"><span class="text-danger">*</span>Nombre</label>
+                      <input type="text" class="form-control form-control-sm" id="name" placeholder="Nombre" formControlName="name">
+                      <div *ngIf="plantaForm.get('name').errors&&plantaForm.get('name').dirty">
+                        <p *ngIf="plantaForm.get('name').hasError('required')" class="text-danger">El nombre es requerido</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="code"><span class="text-danger">*</span>Nombre corto</label>
+                      <input type="text" class="form-control form-control-sm" id="code" placeholder="Nombre corto" formControlName="code">
+                      <div *ngIf="plantaForm.get('code').errors&&plantaForm.get('code').dirty">
+                        <p *ngIf="plantaForm.get('code').hasError('required')" class="text-danger">El nombre corto es requerido</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <h4 class="card-subtitle">Información de contacto</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="eName"><span class="text-danger">*</span>Nombre</label>
+                      <input type="text" class="form-control form-control-sm" id="eName" placeholder="Nombre" formControlName="ename">
+                      <div *ngIf="plantaForm.get('ename').errors&&plantaForm.get('ename').dirty">
+                        <p *ngIf="plantaForm.get('ename').hasError('required')" class="text-danger">El nombre es requerido</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="Email"><span class="text-danger">*</span>Email</label>
+                      <input type="email" class="form-control form-control-sm" id="Email" placeholder="Correo" formControlName="email">
+                      <div *ngIf="plantaForm.get('email').errors&&plantaForm.get('email').dirty">
+                        <p *ngIf="plantaForm.get('email').hasError('required')" class="text-danger">El email es requerido</p>
+                        <p *ngIf="plantaForm.get('email').hasError('email')" class="text-danger">Debe tener formato de email</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                      <div class="form-group">
+                        <label for="Phone"><span class="text-danger">*</span>Télefono</label>
+                        <input type="tel" class="form-control form-control-sm" id="Phone" placeholder="Télefono" formControlName="phone">
+                        <div *ngIf="plantaForm.get('phone').errors&&plantaForm.get('phone').dirty">
+                          <p *ngIf="plantaForm.get('phone').hasError('required')" class="text-danger">El telefono es requerido</p>
+                          <p *ngIf="plantaForm.get('phone').hasError('minlength')" class="text-danger">Debe tener minimo 10 digitos</p>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 15px;">
+                  <div class="col-4">
+                    <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                  </div>
+                  <div class="col-4">
+                    <button type="submit" class="btn btn-primary w-100" [disabled]="plantaForm.invalid">Actualizar</button>
+                  </div>
+                </div>
+                <div class="row" *ngIf="saving">
+                  <mat-spinner class="mx-auto"></mat-spinner>
+                </div>
+            </form>
+        </div>
+        <div class="card text-center" *ngIf="cargando">
+          <p class="lead">CARGANDO</p>
+          <mat-spinner class="mx-auto"></mat-spinner>
+        </div>
+    </div>
+</div>
+<hr>
+<hr>
+</div>
+<app-footer></app-footer>

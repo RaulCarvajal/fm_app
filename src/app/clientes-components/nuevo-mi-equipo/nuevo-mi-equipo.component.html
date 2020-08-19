@@ -1,0 +1,134 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <hr>
+  <div class="row">
+    <div class="col-12">
+      <div class="card w-100">
+        <div class="card-body">
+          <h5 class="card-title">Añadir nuevo equipo EMG</h5>
+          <br>
+          <form [formGroup]="emgForm" (ngSubmit)="save()">
+            <div class="row">
+              <div class="col">
+                <h6 class="card-subtitle">Ubicación del nuevo equipo</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="planta"><span class="text-danger">*</span>Planta <small class="text-muted">seleccione primero cliente</small></label>
+                  <select class="form-control" id="planta" (change)="loadLines()" formControlName="planta">
+                    <option *ngFor="let plant of plants" value="{{plant._id}}">{{plant.name}}</option>
+                  </select>
+                  <div *ngIf="emgForm.get('planta').errors&&emgForm.get('planta').dirty">
+                    <p *ngIf="emgForm.get('planta').hasError('required')" class="text-danger">La planta es requerida</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="linea"><span class="text-danger">*</span>Línea <small class="text-muted">seleccione primero cliente y planta</small></label>
+                  <select class="form-control" id="linea" formControlName="linea" (change)="saveLine()">
+                    <option *ngFor="let line of lines" value="{{line._id}}">{{line.name}}</option>
+                  </select>
+                  <div *ngIf="emgForm.get('linea').errors&&emgForm.get('linea').dirty">
+                    <p *ngIf="emgForm.get('linea').hasError('required')" class="text-danger">La línea es requerida</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h6 class="card-subtitle">Información del equipo EMG</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="btnsug"><span class="text-danger">*</span>Nombre</label>
+                      <button type="button" class="btn btn-primary w-100" id="btnsug" (click)="genName()">Sugerir</button>
+                    </div>
+                  </div>
+                  <div class="col-8">      
+                    <div class="form-group">
+                      <label for="modelo">...</label>
+                      <input type="text" class="form-control" id="modelo" formControlName="nombre" placeholder="Nombre" value="{{nombre}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="modelo"><span class="text-danger">*</span>Modelo</label>
+                  <input type="text" class="form-control" id="modelo" formControlName="modelo" placeholder="Modelo del equipo">
+                  <div *ngIf="emgForm.get('modelo').errors&&emgForm.get('modelo').dirty">
+                    <p *ngIf="emgForm.get('modelo').hasError('required')" class="text-danger">El modelo es requerido</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="Tipo"><span class="text-danger">*</span>Tipo</label>
+                  <input type="text" class="form-control" id="Tipo" formControlName="tipo" placeholder="Tipo del equipo (motor, actuador, etc.)">
+                </div>
+                <div *ngIf="emgForm.get('modelo').errors&&emgForm.get('modelo').dirty">
+                  <p *ngIf="emgForm.get('modelo').hasError('required')" class="text-danger">El modelo es requerido</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col"> 
+                <div class="form-group">
+                  <label for="Descripción"><span class="text-danger">*</span>Descripción</label>
+                  <input type="text" class="form-control" id="Descripción" formControlName="desc" placeholder="Descripción del equipo">
+                  <div *ngIf="emgForm.get('desc').errors&&emgForm.get('desc').dirty">
+                    <p *ngIf="emgForm.get('desc').hasError('required')" class="text-danger">La descripción es requerida</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="Seria"><span class="text-danger">*</span>Número de serie</label>
+                  <input type="text" class="form-control" id="Seria" formControlName="serie" placeholder="Número de serie del equipo">
+                  <div *ngIf="emgForm.get('serie').errors&&emgForm.get('serie').dirty">
+                    <p *ngIf="emgForm.get('serie').hasError('required')" class="text-danger">El número de serie es requerido</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="cp"><span class="text-danger">*</span>Código de proyecto</label>
+                  <input type="text" class="form-control" id="cp" formControlName="cod_pro" placeholder="Código de proyecto del equipo">
+                  <div *ngIf="emgForm.get('cod_pro').errors&&emgForm.get('cod_pro').dirty">
+                    <p *ngIf="emgForm.get('cod_pro').hasError('required')" class="text-danger">El Código de proyecto es requerido</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-4">
+                    <div class="pad1 w-100">
+                        <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="pad1 w-100">
+                        <button type="submit" class="btn btn-primary w-100" [disabled]="emgForm.invalid">Guardar</button>                    
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h5 class="text-info" *ngIf="msg">EQUIPO REGISTRADO</h5>
+                    <h5 class="text-danger" *ngIf="msgErr">ERROR DURANTE REGISTRO</h5>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+</div>
+<app-footer></app-footer>

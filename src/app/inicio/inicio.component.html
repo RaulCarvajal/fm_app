@@ -1,0 +1,114 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <hr>
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-left display-4">Avance al día de hoy a las {{hora}} </h1>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-left lead">Información de servicios</h1>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="card">
+              <div class="card-body">
+                  <p class="card-title">
+                      Pendientes
+                  </p>
+                  <div class="text-center">
+                    <p class="display-4">{{SP}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="card">
+              <div class="card-body">
+                  <p class="card-title">
+                      Finalizados
+                  </p>
+                  <div class="text-center">
+                    <p class="display-4">{{ST}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="card">
+              <div class="card-body">
+                  <p class="card-title">
+                     Totales
+                  </p>
+                  <div class="text-center">
+                    <p class="display-4">{{SR}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="card w-100">
+            <div class="card-body">
+                <p class="card-title">
+                    Calidad de servicio
+                </p>
+                <div *ngIf="ldchart">
+                  <canvas baseChart 
+                    [data]="pieChartData" 
+                    [labels]="pieChartLabels" 
+                    [chartType]="pieChartType"
+                    [options]="pieChartOptions"
+                    [plugins]="pieChartPlugins"
+                    [legend]="pieChartLegend"
+                    [colors]="chartColors">
+                  </canvas>
+                </div>
+                <div *ngIf="!ldchart">
+                  <p class="lead text-center">Aún no se cuenta con la información necesaria para llenar esta gráfica</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="card w-100">
+            <div class="card-body">
+                <p class="card-title">
+                    Servicios programados para hoy
+                </p>
+                <div *ngIf="ldtable">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Activo</th>
+                          <th scope="col">Técnico</th>
+                          <th scope="col">Hora programada</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let s of TServ; let inx = index;">
+                          <th scope="row">{{inx+1}}</th>
+                          <td>{{getEmg(s.emg)}}</td>
+                          <td>{{getTecnico(s.tecnico)}}</td>
+                          <td>{{s.date.slice(11,s.date.length)}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div *ngIf="!ldtable" class="text-center">
+                    <p class="lead">Sin servicios registrados para Hoy</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <hr>
+  <hr>
+</div>
+<app-footer></app-footer>

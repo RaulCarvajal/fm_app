@@ -1,0 +1,123 @@
+<app-navbar></app-navbar>
+<div class="container">
+<hr>
+<hr>
+
+  <div class="row" *ngIf="!load">
+      <div class="col">
+        <div class="card w-100">
+          <div class="card-body">
+            <h5 class="card-title">Ver - {{planta.name}} de {{empresa}}</h5>
+            <hr> 
+            <div class="row">
+              <div class="col">
+                <h5 class="card-suvtitle">Datos básicos</h5>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col">
+                <h6 class="card-subtitle"><b>Nombre:</b><br>{{planta.name}}</h6>
+              </div>
+              <div class="col">
+                <h6 class="card-subtitle"><b>Nombre corto o código:</b><br>{{planta.code}}</h6>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col">
+                <h5 class="card-suvtitle">Otros datos</h5>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col">
+                <h6 class="card-subtitle"><b>Fecha y hora de registro:</b><br>{{reg_date}}</h6>
+              </div>
+              <div class="col">
+                <h6 class="card-subtitle"><b>Registrado por:</b><br>{{reg_bystr}}</h6>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col">
+                <h5 class="card-subtitle">{{nslinea}}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Nombre corto</th>
+                      <th class="text-center" scope="col">Descripción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let lns of planta.lines">
+                      <td scope="row">{{lns.name}}</td>
+                      <td>{{lns.shortname}}</td>
+                      <td class="text-center">{{lns.desc}}</td>
+                    </tr>
+                  </tbody>
+              </table>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col">
+                <h5 class="card-suvtitle">Datos del jefe o encargado</h5>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col">
+                <h6 class="card-subtitle"><b>Nombre:</b><br>{{planta.boss.name}}</h6>
+              </div>
+              <div class="col">
+                <h6 class="card-subtitle"><b>Teléfono:</b><br>{{planta.boss.phone}}</h6>
+              </div>
+              <div class="col">
+                <h6 class="card-subtitle"><b>Email:</b><br>{{planta.boss.email}}</h6>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col">
+                <p class="text-muted">Para ver detalles de {{nslinea}}, consulte el apartado especial de {{nslinea}} o da click <a [routerLink]="['/equipos/lineas']">aqui</a>.</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row pad1">
+              <div class="col">
+                <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn btn-primary w-100" (click)="gotoActualizar()">Actualizar</button>
+              </div>
+              <div class="col">
+                <a class="btn btn-primary w-100" role="button" href="mailto:{{planta.boss.email}}">Contactar al encargado</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div *ngIf="load">
+    <div class="row">
+      <div class="col">
+        <p class="lead mx-auto">CARGANDO</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-spinner class="mx-auto"></mat-spinner>
+      </div>
+    </div>
+  </div>
+<hr>
+<hr>
+</div>
+<app-footer></app-footer>

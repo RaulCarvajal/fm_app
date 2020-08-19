@@ -1,0 +1,128 @@
+<app-navbar></app-navbar>
+<div class="container" *ngIf="!load">
+  <hr>
+  <div class="row">
+    <div class="col-12">
+      <div class="card w-100">
+        <div class="card-body">
+          <h5 class="card-title">Ver {{nses}}</h5>
+          <br>
+          <h6 class="card-subtitle"><b>Nombre: </b>{{nombre}}</h6>
+          <br>
+          <hr>  
+          <div class="row">
+            <div class="col">
+              <h6 class="card-subtitle">Ubicación</h6>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <h6><b>Cliente: </b>{{cliente}}</h6>
+            </div>
+            <div class="col">
+              <h6><b>{{nsps}}: </b>{{planta}}</h6>
+            </div>
+            <div class="col">
+              <h6><b>{{nsls}}: </b>{{linea}}</h6>
+            </div>
+          </div>
+          <hr>
+          <br>
+          <div class="row">
+            <div class="col">
+              <h6 class="card-subtitle">Información del {{nses}}</h6>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+                <h6><b>Estado del equipo: </b>{{activado()}}</h6>                
+            </div>
+          </div>
+          <hr>
+          <br>
+          <div class="row">
+            <div class="col">
+              <h6><b>Modelo: </b>{{modelo}}</h6>
+            </div>
+            <div class="col">
+              <h6><b>Tipo: </b>{{tipo}}</h6>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <h6><b>Descripción: </b>{{descripcion}}</h6>
+            </div>
+            <div class="col">
+              <h6><b>Serie: </b>{{serie}}</h6>
+            </div>
+            <div class="col">
+              <h6><b>Código de proyecto: </b>{{cod_pro}}</h6>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col"> 
+                <h6><b>Enlaces adjuntos</b></h6>
+                <h6 *ngIf="emg.enlaces.length == 0 || emg.enlaces == 0">Sin enlaces adjuntos</h6>
+                <ul *ngIf="emg.enlaces.length > 0">
+                  <li *ngFor="let enlace of enlaces">
+                    <a href="{{enlace}}">{{enlace}}</a>
+                  </li>
+                </ul> 
+            </div> 
+            <div class="col">
+              <h6><b>Información extra</b></h6>
+              <p class="text-justify">
+                {{extra}}
+              </p>
+            </div> 
+          </div>
+          <br>
+          <div class="row" style="padding-bottom: 0px">
+            <div class="col text-center">
+              <h6><b>Código QR de identificación</b></h6>
+              <img src="{{emg.qr}}" class="img-fluid" style="width: 250px;">
+            </div>
+          </div>
+          <div class="row pad1">
+            <div class="col">
+              <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-warning w-100" (click)="actDes()">{{actDesStr()}}</button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-danger w-100" (click)="getPdf()">Descargar ficha(PDF)</button>
+            </div>
+          </div>
+          <div class="row pad1" style="margin-top: 10px;">
+            <div class="col">
+              <button type="button" class="btn btn-primary w-100" (click)="gotoNewService()">Registrar servicio</button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-primary w-100" (click)="gotoServices()">Ver servicios</button>
+            </div>
+            <div class="col">
+            </div>
+          </div>
+      </div>
+      <hr><hr>
+    </div>
+  </div>
+  <hr>
+</div>
+
+<div class="container" *ngIf="load">
+  <div class="row">
+    <p class="lead mx-auto">
+      CARGANDO
+    </p>
+  </div>
+  <div class="row" >
+    <mat-spinner class="mx-auto"></mat-spinner>
+  </div>
+</div>
+<app-footer></app-footer>

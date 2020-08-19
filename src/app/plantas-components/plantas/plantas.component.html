@@ -1,0 +1,85 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <hr>
+  <div class="row">
+    <div class="col">
+      <h2 class="text-left">{{nsplanta}}</h2>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <h5 class="text-center">Filtrar</h5>
+    </div>
+  </div>  
+  <div class="row">
+    <div class="col-3">
+      <h6 class="text-left">Por cliente</h6>
+    </div>
+    <div class="col-3 text-right">
+      <select id="inputState" class="form-control form-control-sm"  [(ngModel)]="id_cliente" [ngModelOptions]="{standalone: true}" (change)="loadPlants()">
+        <option [selected]="true" value="alls">Todos los registros</option>
+        <option *ngFor="let cliente of clientes" value="{{cliente._id}}">{{cliente.name}}</option>
+      </select>
+    </div>
+    <div class="col-3">
+      <h6 class="text-left">Buscar por nombre</h6>
+    </div>
+    <div class="col-3 text-right">
+      <input type="text" class="form-control form-control-sm" placeholder="Nombre de la planta" [(ngModel)]="busq" [ngModelOptions]="{standalone: true}" (keyup)="busqueda()">
+    </div>
+  </div>
+  <hr>
+  <hr>
+  <div class="row">
+    <div class="col-12 text-right">
+      <button class="btn btn-primary" type="button" (click)="newPlant()">
+        Agregar
+      </button>
+    </div>
+  </div>
+  <br>
+  <div *ngIf="load">
+    <div class="row text-center"><!--asda-->
+      <div class="col-12">
+          <table class="table table-striped" *ngIf="!vacio()">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Nombre corto</th>
+                  <th scope="col">Encargado</th>
+                  <th scope="col">Email</th>
+                  <!--th scope="col">{{nslinea}}</th-->
+                  <th scope="col">Detalle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pnt of planta">
+                  <td scope="row">{{pnt.name}}</td>
+                  <td>{{pnt.code}}</td>
+                  <td>{{pnt.boss.name}}</td>
+                  <td>{{pnt.boss.email}}</td>
+                  <!--td>{{pnt.lines.length}}</td-->
+                  <td>
+                      <button mat-mini-fab class="bg-primary" (click)="plantDet(pnt._id)">
+                          <mat-icon>pageview</mat-icon>
+                      </button>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+          <h2 *ngIf="vacio()">No existen registros con los criterios de búsqueda</h2>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!load">
+    <div class="row">
+      <p class="lead mx-auto">CARGANDO</p>
+    </div>
+    <div class="row">
+      <mat-spinner class="mx-auto"></mat-spinner>
+    </div>
+  </div>
+  <hr><hr>
+</div>
+<app-footer></app-footer>

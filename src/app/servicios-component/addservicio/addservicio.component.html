@@ -1,0 +1,156 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <hr>
+  <div class="row"> 
+    <div class="col-12">
+      <div class="card w-100">
+        <div class="card-body">
+          <h5 class="card-title">Programar servicio a equipo EMG</h5>
+          <br>
+          <div class="accordion bor" id="filtros">
+            <div class="bg-light">
+              <div class="" id="headingOne">
+                <h2 class="mb-0">
+                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Filtrar equipos y contratos
+                  </button>
+                </h2>
+              </div>
+              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#filtros">
+                <div class="card-body">
+                  <form>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="cliente">Empresa</label>
+                          <select class="form-control form-control-sm" id="cliente" (change)="loadPlants()" [(ngModel)]="empresa" [ngModelOptions]="{standalone: true}" [disabled]="empresaB">
+                            <option *ngFor="let emp of empresas" value="{{emp._id}}">{{emp.name}}</option>
+                          </select> 
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="planta">Planta <small class="text-muted">seleccione primero cliente</small></label>
+                          <select class="form-control form-control-sm" id="planta" (change)="loadLines()" [(ngModel)]="planta" [ngModelOptions]="{standalone: true}" [disabled]="plantaB">
+                            <option *ngFor="let plant of plants" value="{{plant._id}}">{{plant.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="linea">Línea <small class="text-muted">seleccione primero cliente y planta</small></label>
+                          <select class="form-control form-control-sm" id="linea" (change)="loadEmgsF()" [(ngModel)]="linea" [ngModelOptions]="{standalone: true}" [disabled]="lineaB">
+                            <option *ngFor="let line of lines" value="{{line._id}}">{{line.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <hr>
+          <form [formGroup]="serviciosForm" (ngSubmit)="save()">
+            <div class="row">
+              <div class="col">
+                <h6 class="card-subtitle">Asignación de Contrato, Activo y Técnico</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="emg"><span class="text-danger">*</span>Activo</label>
+                  <select class="form-control form-control-sm" id="emg" formControlName="emg" (change)="contratosByClient()">
+                    <option *ngFor="let emg of emgs" value="{{emg._id}}">{{emg.info.name}}</option>
+                  </select>
+                  <div *ngIf="serviciosForm.get('emg').errors&&serviciosForm.get('emg').dirty">
+                    <p *ngIf="serviciosForm.get('emg').hasError('required')" class="text-danger">El Activo es requerido</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="tecnico"><span class="text-danger">*</span>Técnico a asignar</label>
+                  <select class="form-control form-control-sm" id="tecnico" formControlName="tecnico">
+                    <option *ngFor="let tecnico of tecnicos" value="{{tecnico._id}}">{{tecnico.info.name}}</option>
+                  </select>
+                  <div *ngIf="serviciosForm.get('tecnico').errors&&serviciosForm.get('tecnico').dirty">
+                    <p *ngIf="serviciosForm.get('tecnico').hasError('required')" class="text-danger">El tecnico es requerido</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="agreement"><span class="text-danger">*</span>Contrato</label>
+                  <select class="form-control form-control-sm" id="agreement" formControlName="agreement" (change)="selectContrato()">
+                    <option *ngFor="let contrato of contratos" value="{{contrato._id}}">{{contrato.name}}</option>
+                  </select>
+                  <div *ngIf="serviciosForm.get('agreement').errors&&serviciosForm.get('agreement').dirty">
+                    <p *ngIf="serviciosForm.get('agreement').hasError('required')" class="text-danger">El equipo es requerido</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col">
+                <h6 class="card-subtitle">Información del servicio requerido</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="type"><span class="text-danger">*</span>Tipo de servicio</label>
+                  <select class="form-control form-control-sm" id="type" formControlName="type">
+                    <option *ngFor="let tipo of tipos" value="{{tipo.name}}">{{tipo.name}}</option>
+                  </select>
+                  <div *ngIf="serviciosForm.get('type').errors&&serviciosForm.get('type').dirty">
+                    <p *ngIf="serviciosForm.get('type').hasError('required')" class="text-danger">El tipo es requerido</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="date"><span class="text-danger">*</span>Fecha y hora</label>
+                  <input type="datetime-local" class="form-control form-control-sm" id="date" formControlName="date" min="{{minDate}}" max="{{maxDate}}">
+                </div>
+                <div *ngIf="serviciosForm.get('date').errors&&serviciosForm.get('date').dirty">
+                  <p *ngIf="serviciosForm.get('date').hasError('required')" class="text-danger">La fecha es requerido</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="Descripción"><span class="text-danger">*</span>Descripción a detalle del servico</label>
+                  <input type="text" class="form-control form-control-sm" id="Descripción" formControlName="desc">
+                  <div *ngIf="serviciosForm.get('desc').errors&&serviciosForm.get('desc').dirty">
+                    <p *ngIf="serviciosForm.get('desc').hasError('required')" class="text-danger">La descripción es requerida</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-4">
+                    <div class="pad1 w-100">
+                        <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="pad1 w-100">
+                        <button type="submit" class="btn btn-primary w-100" [disabled]="serviciosForm.invalid">Programar</button>                    
+                    </div>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <hr>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,189 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <hr>
+  <div class="row" *ngIf="!load">
+    <div class="col-12">
+      <div class="card w-100">
+        <div class="card-body">
+          <h5 class="card-title">Añadir nuevo {{nsequipoS}}</h5>
+          <br>
+          <form [formGroup]="emgForm" (ngSubmit)="save()" enctype='multipart/form-data'>
+            <div class="row">
+              <div class="col">
+                <h6 class="card-subtitle">Ubicación</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="cliente"><span class="text-danger">*</span>Cliente</label>
+                  <select class="form-control form-control-sm" id="cliente" (change)="loadPlants()" formControlName="cliente">
+                    <option *ngFor="let user of users" value="{{user._id}}">{{user.name}}</option>
+                  </select>
+                  <div *ngIf="emgForm.get('cliente').errors&&emgForm.get('cliente').dirty">
+                    <p *ngIf="emgForm.get('cliente').hasError('required')" class="text-danger">El cliente es requerido</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="planta"><span class="text-danger">*</span>{{nsplantaS}} <small class="text-muted">seleccione primero cliente</small></label>
+                  <select class="form-control form-control-sm" id="planta" (change)="loadLines()" formControlName="planta">
+                    <option *ngFor="let plant of plants" value="{{plant._id}}">{{plant.name}}</option>
+                  </select>
+                  <div *ngIf="emgForm.get('planta').errors&&emgForm.get('planta').dirty">
+                    <p *ngIf="emgForm.get('planta').hasError('required')" class="text-danger">Campo requerido</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="linea"><span class="text-danger">*</span>{{nslineaS}} <small class="text-muted">seleccione primero cliente y {{nsplantaS}}</small></label>
+                  <select class="form-control form-control-sm" id="linea" formControlName="linea" (change)="saveLine()">
+                    <option *ngFor="let line of lines" value="{{line._id}}">{{line.name}}</option>
+                  </select>
+                  <div *ngIf="emgForm.get('linea').errors&&emgForm.get('linea').dirty">
+                    <p *ngIf="emgForm.get('linea').hasError('required')" class="text-danger">Campo requerido</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h6 class="card-subtitle">Información del {{nsequipoS}}</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="btnsug"><span class="text-danger">*</span>Nombre</label>
+                      <button type="button" class="btn btn-primary btn-sm w-100" id="btnsug" (click)="genName()">Sugerir</button>
+                    </div>
+                  </div>
+                  <div class="col-8">      
+                    <div class="form-group">
+                      <label for="modelo">...</label>
+                      <input type="text" class="form-control form-control-sm" id="modelo1" formControlName="nombre" placeholder="Nombre" value="{{nombre}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--<div class="col">
+                <div class="form-group">
+                  <label for="modelo"><span class="text-danger">*</span>Modelo</label>
+                  <input type="text" class="form-control form-control-sm" id="modelo" formControlName="modelo" placeholder="Modelo del equipo">
+                  <div *ngIf="emgForm.get('modelo').errors&&emgForm.get('modelo').dirty">
+                    <p *ngIf="emgForm.get('modelo').hasError('required')" class="text-danger">El modelo es requerido</p>
+                  </div>
+                </div>
+              </div>-->
+              <div class="col">
+                <div class="form-group">
+                  <label for="modelo"><span class="text-danger">*</span>Modelo</label>
+                  <select class="form-control form-control-sm" id="modelo" formControlName="modelo" (change)="getModelo()">
+                    <option *ngFor="let modelo of modelos" value="{{modelo.modelo}}">{{modelo.modelo}}</option>
+                  </select>
+                  <div *ngIf="emgForm.get('modelo').errors&&emgForm.get('modelo').dirty">
+                    <p *ngIf="emgForm.get('modelo').hasError('required')" class="text-danger">El modelo es requerido</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="Tipo"><span class="text-danger">*</span>Tipo</label>
+                  <input type="text" class="form-control form-control-sm" id="Tipo" formControlName="tipo" placeholder="Tipo (motor, actuador, etc.)">
+                </div>
+                <div *ngIf="emgForm.get('modelo').errors&&emgForm.get('modelo').dirty">
+                  <p *ngIf="emgForm.get('modelo').hasError('required')" class="text-danger">El modelo es requerido</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="Descripción"><span class="text-danger">*</span>Descripción</label>
+                  <input type="text" class="form-control form-control-sm" id="Descripción" formControlName="desc" placeholder="Descripción">
+                  <div *ngIf="emgForm.get('desc').errors&&emgForm.get('desc').dirty">
+                    <p *ngIf="emgForm.get('desc').hasError('required')" class="text-danger">La descripción es requerida</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="Seria"><span class="text-danger">*</span>Número de serie</label>
+                  <input type="text" class="form-control form-control-sm" id="Seria" formControlName="serie" placeholder="Número de serie">
+                  <div *ngIf="emgForm.get('serie').errors&&emgForm.get('serie').dirty">
+                    <p *ngIf="emgForm.get('serie').hasError('required')" class="text-danger">El número de serie es requerido</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col">
+                <div class="form-group">
+                  <label for="cp"><span class="text-danger">*</span>Código de proyecto</label>
+                  <input type="text" class="form-control form-control-sm" id="cp" formControlName="cod_pro" placeholder="Código de proyecto">
+                  <div *ngIf="emgForm.get('cod_pro').errors&&emgForm.get('cod_pro').dirty">
+                    <p *ngIf="emgForm.get('cod_pro').hasError('required')" class="text-danger">El Código de proyecto es requerido</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="re">Enlace(Link) a archivos relacionados</label>
+                  <textarea class="form-control form-control-sm" id="re" rows="3" formControlName="enlaces"></textarea>
+                  <small class="text-muted">separar por coma.</small>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="re">Información extra(Comentarios y/o observaciones).</label>
+                  <textarea class="form-control form-control-sm" id="re" rows="3" formControlName="extras"></textarea>
+                </div>
+              </div> 
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="img">Imagen</label>
+                  <input type="file" class="form-control" id="img" accept="image/*" (change)="handleFileSelect($event)" > <!--formControlName="img"-->
+                </div>
+              </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-4">
+                    <div class="pad1 w-100">
+                        <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="pad1 w-100">
+                        <button type="submit" class="btn btn-primary w-100" [disabled]="emgForm.invalid">Guardar</button>                    
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="guardando">
+              <mat-spinner class="mx-auto"></mat-spinner>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="load">
+    <div class="row">
+      <p class="lead mx-auto">CARGANDO</p>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-spinner class="mx-auto"></mat-spinner>
+      </div>
+    </div>
+  </div>
+  <hr> 
+</div>
+<app-footer></app-footer>

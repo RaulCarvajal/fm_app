@@ -1,0 +1,38 @@
+.navbar{
+    justify-content: space-between;
+}
+
+span{
+    padding-left: 1rem;
+}
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (max-width: 576px) { 
+    .navbar{
+        justify-content: space-between;
+        height: 250px;
+    }
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (max-width: 768px) { 
+    .navbar{
+        justify-content: space-between;
+        height: 250px;
+        text-align: center;
+    }
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (max-width: 992px) { 
+    .navbar{
+        justify-content: space-between;
+    }
+}
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (max-width: 1200px) { 
+    .navbar{
+        justify-content: space-between;
+    }
+}

@@ -1,0 +1,158 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <hr>
+  <div class="row">
+    <div class="col-12">
+      <div class="card w-100">
+        <div class="card-body">
+          <h5 class="card-title">Generar nuevo contrato</h5>
+          <br>
+          <form [formGroup]="contratoForm" (ngSubmit)="save()">
+            
+            <br>
+            <div class="row">
+              <div class="col">
+                <h6 class="card-subtitle">Información del contrato</h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="name"><span class="text-danger">*</span>Nombre de contrato</label>
+                  <input type="text" class="form-control form-control-sm" id="name" formControlName="name">
+                  <div *ngIf="contratoForm.get('name').errors&&contratoForm.get('name').dirty">
+                    <p *ngIf="contratoForm.get('name').hasError('required')" class="text-danger">El nombre es requerido</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="description"><span class="text-danger">*</span>Descripción</label>
+                  <input type="text" class="form-control form-control-sm" id="description" formControlName="description">
+                </div>
+                <div *ngIf="contratoForm.get('description').errors&&contratoForm.get('description').dirty">
+                  <p *ngIf="contratoForm.get('description').hasError('required')" class="text-danger">La descripción es requerido</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="single" formControlName="single" (change)="setFechasSingle()">
+                  <label class="form-check-label" for="single">¿Es un contrato puntual?.<small> Osea si este contrato solo aplicaria un servicio, despúes de realizado este servico el contrato vencerá.</small></label><br>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row" *ngIf="!contratoForm.value.single">
+              <div class="col">
+                <div class="form-group">
+                  <label for="start">Inicio de contrato</label>
+                  <input type="date" class="form-control form-control-sm" id="start" formControlName="start" max="{{contratoForm.value.end}}">
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="end">Final del contrato</label>
+                  <input type="date" class="form-control form-control-sm" id="end" formControlName="end" min="{{contratoForm.value.start}}">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="client"><span class="text-danger">*</span>Cliente a asignar</label>
+                  <select class="form-control form-control-sm" id="client" formControlName="client">
+                    <option *ngFor="let empresa of empresas" value="{{empresa._id}}">{{empresa.name}}</option>
+                  </select>
+                  <div *ngIf="contratoForm.get('client').errors&&contratoForm.get('client').dirty">
+                    <p *ngIf="contratoForm.get('client').hasError('required')" class="text-danger">El cliente es requerido</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row">
+                  <div class="col-8">
+                    <div class="form-group">
+                      <label for="monto"><span class="text-danger">*</span>Monto monetario del contrato</label>
+                      <input type="Number" class="form-control form-control-sm" id="monto" formControlName="monto">
+                    </div>
+                    <div *ngIf="contratoForm.get('monto').errors&&contratoForm.get('monto').dirty">
+                      <p *ngIf="contratoForm.get('monto').hasError('required')" class="text-danger">El monto es requerido</p>
+                      <p *ngIf="contratoForm.get('monto').hasError('pattern')" class="text-danger">Digite un monto válido</p>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="divisa"><span class="text-danger">*</span>Divisa</label>
+                      <select class="form-control form-control-sm" id="divisa" formControlName="divisa">
+                        <option value="MXN">MXN</option>
+                        <option value="USD">USD</option>
+                      </select>
+                    </div>
+                    <div *ngIf="contratoForm.get('divisa').errors&&contratoForm.get('divisa').dirty">
+                      <p *ngIf="contratoForm.get('divisa').hasError('required')" class="text-danger">La divisa es requerida</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col">
+                <h6 class="card-subtitle">Conceptos de cobro del contrato</h6>
+              </div>
+            </div>
+            <div formArrayName="conceptos">
+              <div *ngFor="let item of conceptos.controls; let pind = index" [formGroupName]="pind">
+
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="cod"><span class="text-danger">*</span>Código</label>
+                      <input type="text" class="form-control form-control-sm" id="cod" formControlName="codigo">
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="des"><span class="text-danger">*</span>Descripción</label>
+                      <input type="text" class="form-control form-control-sm" id="des" formControlName="descripcion">
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="precio"><span class="text-danger">*</span>Precio</label>
+                      <input type="number" class="form-control form-control-sm" id="precio" formControlName="precio">
+                    </div>
+                  </div>
+                  <div class="col-1 text-center mt-buttons w-100">
+                    <button type="button" class="btn btn-sm btn-outline-danger" (click)="delConcepto(pind)" *ngIf="pind>0"><img src="assets/menos.png" alt="menos"></button>
+                    <button type="button" class="btn btn-sm btn-outline-primary" (click)="addConcepto()" *ngIf="pind==0"><img src="assets/mas.png" alt="mas"></button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            
+            <br><br>
+            <div class="row">
+                <div class="col-4">
+                    <div class="pad1 w-100">
+                        <button type="button" class="btn btn-info w-100" (click)="regresar()">Regresar</button>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="pad1 w-100">
+                        <button type="submit" class="btn btn-primary w-100" [disabled]="contratoForm.invalid">Guardar</button><!--contratoForm.invalid-->                    
+                    </div>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <hr>
+</div>
+<app-footer></app-footer>

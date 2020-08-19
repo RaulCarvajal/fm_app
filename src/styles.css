@@ -1,0 +1,43 @@
+/* You can add global styles to this file, and also import other style files */
+html {
+    min-height: 100%;
+    position: relative;
+}
+body {
+    margin: 0;
+    margin-bottom: 40px;
+}
+footer {
+    background-color: black;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    color: white;
+}
+html, body { /*height: 100%;*/ }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.form-control1 {
+    border: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sng-border{
+    border-color: grey;
+    border-style: solid;
+    border-width: 2px;
+}
+.sig-container {
+    border-style: dashed;
+    border-width: 1px;
+}
+
+.mt-buttons{
+    margin-top: 30px;
+}
+
+.btn-width {
+    width: 150px;
+}

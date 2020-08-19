@@ -1,0 +1,62 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <hr>
+  <div class="row">
+    <div class="col-6">
+      <h2 class="text-left">Contratos registrados</h2>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <h5 class="text-center">Filtrar</h5>
+    </div>
+  </div>  
+  <div class="row">
+    <div class="col-3">
+      <h6 class="text-left">Buscar por descripción de contrato</h6>
+    </div>
+    <div class="col-3 text-right">
+      <input type="text" class="form-control form-control-sm" placeholder="Descripción de contrato" [(ngModel)]="busq" [ngModelOptions]="{standalone: true}" (keyup)="busqueda()">
+    </div> 
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-6">
+    </div>
+    <div class="col-6 text-right">
+      <button class="btn btn-primary" type="button" (click)="goNewContrato()">
+        Nuevo contrato
+      </button>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-12">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Tipo de contrato</th>
+                <th scope="col">Detalle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let contrato of contratos">
+                <td scope="row">{{contrato.name}}</td>
+                <td>{{getEmpresa(contrato.client)}}</td>
+                <td>{{getTipo(contrato.period.single)}}</td>
+                <td>
+                    <button mat-mini-fab class="bg-primary" (click)="contratoDet(contrato._id)">
+                        <mat-icon>pageview</mat-icon>
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+  </div>
+  <hr><hr>
+</div>
+<app-footer></app-footer>

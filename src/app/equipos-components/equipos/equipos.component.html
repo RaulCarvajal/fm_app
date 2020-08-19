@@ -1,0 +1,186 @@
+<app-navbar></app-navbar>
+<div class="container" *ngIf="!load">
+  <hr>
+  <div class="row"> 
+    <div class="col">
+      <h2 class="text-left">Ver {{nsequipo}}</h2>
+    </div>
+  </div>
+  <hr>
+
+  <ul class="nav nav-tabs" id="tabsUsers" role="tablist">
+    <li class="nav-item">
+      <p class="nav-link active"  id="equipos-tab" data-toggle="tab" href="#equipos" role="tab" aria-controls="equipos" aria-selected="true">Equipos</p>
+    </li>
+    <li class="nav-item">
+      <p class="nav-link" id="modelos-tab" data-toggle="tab" href="#modelos" role="tab" aria-controls="modelos" aria-selected="false">Catálogo de modelos</p>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="myTabContent">
+
+    <div class="tab-pane fade show active"  id="equipos" role="tabpanel" aria-labelledby="equipos-tab">
+      <div class="row">
+        <div class="col">
+          <h5 class="text-left text-center">Filtrar</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h6 class="text-left">Por cliente</h6>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <!--<ng-select2 [(ngModel)]="client_id" [ngModelOptions]="{standalone: true}" [data]="clientesList" (change)="loadEmgsByClient()" [width]="150">		
+            </ng-select2>-->
+            <select class="form-control form-control-sm" id="tipo" [(ngModel)]="client_id" [ngModelOptions]="{standalone: true}" (change)="loadEmgsByClient()">
+              <option value="alls">Ver todos</option>
+              <option *ngFor="let client of clients" value="{{client._id}}">{{client.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <h6 class="text-left">Por {{nsplanta}}</h6>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <select class="form-control form-control-sm" id="tipo" [(ngModel)]="plant_id" [ngModelOptions]="{standalone: true}" (change)="loadEmgsByPlant()">
+              <option value="alls">Ver todos</option>          
+              <option *ngFor="let plant of plants" value="{{plant._id}}">{{plant.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <h6 class="text-left"><span class="text-danger">*</span>por {{nslinea}}</h6>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <select class="form-control form-control-sm" id="tipo" [(ngModel)]="line_id" [ngModelOptions]="{standalone: true}" [disabled]="!have_lines" (change)="loadEmgsByPlantAndLines()">
+              <option *ngFor="let line of lines" value="{{line._id}}">{{line.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h6 class="text-left">Buscar por serial</h6>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <input type="text" class="form-control form-control-sm" placeholder="Búsqueda por SN" [(ngModel)]="busqBySerial" [ngModelOptions]="{standalone: true}" (keyup)="busquedaBySerial()">
+          </div>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">
+          <h6 class="text-left">Buscar por nombre</h6>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <input type="text" class="form-control form-control-sm" placeholder="Búsqueda por nombre" [(ngModel)]="busqByName" [ngModelOptions]="{standalone: true}" (keyup)="busquedaByName()">
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col"><small class="text-danger">*Primero debe seleccionar el menú de {{nsplanta}}</small></div>
+        <div class="col text-right">
+          <button class="btn btn-primary" (click)="goNewEmg()">Agregar</button>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+          <div class="col">
+              <table class="table table-striped" *ngIf="true">
+                  <thead>
+                    <tr>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Tipo</th>
+                      <th scope="col">Modelo</th>
+                      <th scope="col">Serial</th>
+                      <th scope="col">Descripción</th>
+                      <th scope="col">Estatus</th>
+                      <th scope="col">Detalle</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let emg of emgs">
+                      <td scope="row">{{emg.info.name}}</td>
+                      <td scope="row">{{emg.info.type}}</td>
+                      <td>{{emg.info.model}}</td>
+                      <td>{{emg.info.serial}}</td>
+                      <td>{{emg.info.description.substring(0,40)}}</td>
+                      <td>{{getStatus(emg.status)}}</td>
+                      <td>
+                        <button mat-mini-fab class="bg-primary" (click)="detEmg(emg._id)">
+                            <mat-icon>pageview</mat-icon>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+              <h4 *ngIf="false">No existen equipos registrados</h4>
+          </div>
+      </div>
+    </div>
+    <div class="tab-pane fade"  id="modelos" role="tabpanel" aria-labelledby="modelos-tab">
+      <div class="row">
+        <div class="col">
+          <p class="text-left">Catálogo de modelos de equipos, con el fin de agilizar el registro de nuevos {{nsequipo}}.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-right">
+          <button class="btn btn-primary" (click)="gotoAdd()">Agregar modelo</button>
+          <hr>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+            <table class="table table-striped" *ngIf="modelos.length > 0">
+                <thead>
+                  <tr>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Links</th>
+                    <th scope="col">Detalle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let modelo of modelos">
+                    <td scope="row">{{modelo.tipo}}</td>
+                    <td scope="row">{{modelo.modelo}}</td>
+                    <td>{{modelo.descripcion}}</td>
+                    <td>{{modelo.enlaces.split(',').length}}</td>
+                    <td class="text-center">
+                      <button mat-mini-fab class="bg-primary" (click)="detalleModelo(modelo._id)">
+                          <mat-icon>pageview</mat-icon>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            <div *ngIf="modelos.length == 0" class="text-center">
+              <h2>No existen registros</h2>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+  </div>
+  <hr>  
+</div>
+<div class="container" *ngIf="load">
+  <div class="row">
+    <p class="lead mx-auto">
+      CARGANDO
+    </p>
+  </div>
+  <div class="row" >
+    <mat-spinner class="mx-auto"></mat-spinner>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,38 @@
+<app-navbar></app-navbar>
+<div class="container pad">
+  <div class="row">
+    <div class="col-sm-12 col-md-4 offset-md-4  centrado-porcentual">
+      <div class="card ">
+        <div class="card-body">
+          <!--img src="assets/logo.png" alt="" srcset="" class="img-fluid"-->
+          <p class="display-4">Log in</p>
+          <form [formGroup]="logForm" (ngSubmit)="login()">
+            <div class="form-group">
+              <label for="nu">Nombre de usuario</label>
+              <input  type="text" class="form-control form-control-sm" id="nu" placeholder="Nombre de usuario" formControlName="usr"> 
+              <div *ngIf="logForm.get('usr').errors&&logForm.get('usr').dirty">
+                <p *ngIf="logForm.get('usr').hasError('required')" class="text-danger">El nombre de usuario es requerido</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="pass">Contraseña</label>
+              <input  type="password" class="form-control form-control-sm" id="pass" placeholder="Contraseña" formControlName="pwd">
+              <div *ngIf="logForm.get('pwd').errors&&logForm.get('pwd').dirty">
+                <p *ngIf="logForm.get('pwd').hasError('required')" class="text-danger">La contraseña es requerida</p>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="logForm.invalid">Entrar</button>
+            <p class="text-center text-danger" *ngIf="faillog">
+              Usuario o contraseña incorrectos, si la falla sigue contacte a los administradores
+            </p>
+            <div class="row" *ngIf="load">
+              <mat-spinner class="mx-auto"></mat-spinner>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+<app-footer></app-footer>

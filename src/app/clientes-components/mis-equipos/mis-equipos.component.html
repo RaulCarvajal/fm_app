@@ -1,0 +1,98 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <hr>
+  <div class="row"> 
+    <div class="col">
+      <h2 class="text-left">Ver {{nsep}}</h2>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <h5 class="text-left text-center">Filtrar</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h6 class="text-left">Por {{nsps}}</h6>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <select class="form-control form-control-sm" id="tipo" [(ngModel)]="plant_id" [ngModelOptions]="{standalone: true}" (change)="loadEmgsByPlant()">
+          <option value="alls">Ver todos</option>          
+          <option *ngFor="let plant of plants" value="{{plant._id}}">{{plant.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col">
+      <h6 class="text-left"><span class="text-danger">*</span>Seleccionar {{nsls}}</h6>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <select class="form-control form-control-sm" id="tipo" [(ngModel)]="line_id" [ngModelOptions]="{standalone: true}" [disabled]="!have_lines" (change)="loadEmgsByPlantAndLines()">
+          <option *ngFor="let line of lines" value="{{line._id}}">{{line.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h6 class="text-left">Buscar por serial</h6>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <input type="text" class="form-control form-control-sm" placeholder="Búsqueda por SN" [(ngModel)]="busqBySerial" [ngModelOptions]="{standalone: true}" (keyup)="busquedaBySerial()">
+      </div>
+    </div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col">
+      <h6 class="text-left">Buscar por nombre</h6>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <input type="text" class="form-control form-control-sm" placeholder="Búsqueda por nombre" [(ngModel)]="busqByName" [ngModelOptions]="{standalone: true}" (keyup)="busquedaByName()">
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col"><small class="text-danger">*Primero debe seleccionar la {{nsps}}</small></div>
+  </div>
+  <hr>
+  <div class="row">
+      <div class="col">
+          <table class="table table-striped" *ngIf="true">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Tipo</th>
+                  <th scope="col">Modelo</th>
+                  <th scope="col">Serial</th>
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Estatus</th>
+                  <th scope="col">Detalle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let emg of emgs">
+                  <td scope="row">{{emg.info.name}}</td>
+                  <td scope="row">{{emg.info.type}}</td>
+                  <td>{{emg.info.model}}</td>
+                  <td>{{emg.info.serial}}</td>
+                  <td>{{emg.info.description.substring(0,40)}}</td>
+                  <td>{{getStatus(emg.status)}}</td>
+                  <td>
+                    <button mat-mini-fab class="bg-primary" (click)="detEmg(emg._id)">
+                        <mat-icon>pageview</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+          <h4 *ngIf="false">No existen equipos registrados</h4>
+      </div>
+  </div>
+  <hr>  
+</div>
+<app-footer></app-footer>
