@@ -149,7 +149,7 @@ export class ViewservicioComponent implements OnInit {
         this.proceso = false;
         break; 
       case 3:
-        this.alert.alert("Este servicio esta realizado, pero no autorizado por el cliente. Tu puedes autorizarlo como administrador de sistema, o esperar a que el cliente de la autolización.");
+        this.alert.alert("Este servicio esta realizado, pero no autorizado por el cliente. Tu puedes autorizarlo como administrador de sistema, o esperar a que el cliente de la autorización.");
         this.status = 'Realizado/No autorizado';
         this.proceso = true;
         this.btnAuth = true;
@@ -365,12 +365,10 @@ export class ViewservicioComponent implements OnInit {
       }
     );
   }
-
   gotoActualizar(){
     this.router.navigateByUrl(`servicios/editar/${this.servicio._id}`);
     //console.log(`servicios/editar/${this.servicio._id}`);
   }
-
   autorizar(){
     this.alert.confirm(
       "Al autorizar el servicio este se calificará como experiencia \"Buena\" y una firma personalizada del sistema, aparte se guardará tu usuario como la persona que autorizo el servicio. <br>¿Desea autorizar el servicio?.", 
@@ -392,5 +390,11 @@ export class ViewservicioComponent implements OnInit {
       },
       ()=>{ this.alert.message("Ningun cambio registrado")}
     );
+  }
+  openImg(base64img){
+    window.open(base64img)
+  }
+  empty(){
+    
   }
 } 

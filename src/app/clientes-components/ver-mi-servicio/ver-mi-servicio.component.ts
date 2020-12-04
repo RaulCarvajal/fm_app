@@ -105,7 +105,6 @@ export class VerMiServicioComponent implements OnInit {
 
   enlaces:string[]; 
 
-
   //Namespace
   nses:string = "";
   getNs(){
@@ -188,7 +187,7 @@ export class VerMiServicioComponent implements OnInit {
       this.proceso = false;
       break; 
     case 3:
-      this.alert.alert("Este servicio esta realizado, pero no autorizado por el cliente. Tu puedes autorizarlo como administrador de sistema, o esperar a que el cliente de la autolización.");
+      this.alert.alert("Este servicio esta realizado, pero no autorizado por el administrador. Tu puedes autorizarlo como cliente, o pedirle a un administrador que lo haga.");
       this.status = 'Realizado/No autorizado';
       this.proceso = true;
       break;
@@ -412,5 +411,9 @@ export class VerMiServicioComponent implements OnInit {
   }
   hideModal():void {
     document.getElementById('close-modal').click();
+  }
+
+  empty(){
+
   }
 }

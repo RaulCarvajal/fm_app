@@ -46,7 +46,6 @@ export class AddservicioTecComponent implements OnInit {
   clientes:User[];
   tecnicos:User[];
   emgs:emgs[];
-  emg_c_id: String;
   serviciosForm:FormGroup;
   tipos: any;
   fecAnt: boolean;
@@ -132,9 +131,8 @@ export class AddservicioTecComponent implements OnInit {
     let temp = this.serviciosForm.value;
     temp.status = 1;
     temp.tecnico = this.auth.getId();
-    temp.client =  this.emg_c_id;
+    temp.client =  this.emgs.find( e => e._id == temp.emg ).client;
     temp.requested_by = this.auth.getId();
-
     this.serviciosService.save(temp).subscribe(
       res=>{
         this.getEmailData(temp.tecnico);

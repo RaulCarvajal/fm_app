@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { ServiciosService } from 'src/app/services/servicios.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { servicios } from 'src/app/interfaces/service.interface';
@@ -95,6 +95,7 @@ export class IniciarServicioComponent implements OnInit {
 
     enlaces:string[]; 
     nses:string = "";
+
     getNs(){
       this.nses = this.nss.getLSEquiposSing();
     }
@@ -143,8 +144,8 @@ export class IniciarServicioComponent implements OnInit {
           this.getRequested();
           this.getEmpresa();
           this.getContrato();
-          this.enlaces = this.servicio.enlaces.split(',');
-          this.finalizarForm.patchValue({ date_ini : this.servicio.start.slice(0,16)});
+          this.enlaces = this.servicio.enlaces?this.servicio.enlaces.split(','):[];
+          this.finalizarForm.patchValue({ date_ini : this.servicio.start});
         },err=>{
           console.error(err);
         }
@@ -375,6 +376,7 @@ export class IniciarServicioComponent implements OnInit {
       data.hours = this.hours;
       data.total = this.totalPrecio;
       data.divisa = this.contrato.divisa;
+      data.imgs = this.imgs;
 
       console.log(data);
       this.serviciosService.finish( this.servicio._id, data ).subscribe(
@@ -438,5 +440,32 @@ export class IniciarServicioComponent implements OnInit {
       return this.finalizarForm.get('conceptos') as FormArray;
     }
     
+    //---------------------------
+    @ViewChild('myInput')
+    myInputVariable: ElementRef;
+    private imgs:string[] = [];
+    handleFileSelect(evt){
+      var files = evt.target.files;
+      var file = files[0];
+      if (files && file) {
+          var reader = new FileReader();
+          reader.onload =this._handleReaderLoaded.bind(this);
+          reader.readAsBinaryString(file);
+      }
+    }
+    _handleReaderLoaded(readerEvt) {
+      this.myInputVariable.nativeElement.value = ""
+      var binaryString = readerEvt.target.result;
+      this.imgs.push('data:image/png;base64,'+btoa(binaryString))
+    }
+
+    delImg(inx:number){
+      this.imgs.splice(inx,1)
+    }
+
+
+    empty(){
+    
+    }
   }
   

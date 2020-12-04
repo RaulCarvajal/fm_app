@@ -181,7 +181,7 @@
                     </div>
                   </div>
                 </div>
-                <!--
+
                 <div class="row" *ngIf="proceso">
                   <div class="col">
                       <h6><b>Enlaces adjuntos</b></h6>
@@ -193,7 +193,18 @@
                       </ul> 
                   </div> 
                 </div>
-                -->
+                
+                <div class="row" *ngIf="servicio.imgs.length">
+                  <div class="col">
+                    <h6><b>Imagenes</b></h6>
+                  </div> 
+                </div>
+                <div class="row" *ngIf="servicio.imgs.length">
+                  <div *ngFor="let img of servicio.imgs;let inx = index" class="col text-center">
+                    <a class="thumbnail" role="button" (click)="empty()"><img src="{{img}}" class="img-ser" /><span><img src="{{img}}" width="300px"/><br />Servicio_{{inx}}</span></a>
+                  </div> 
+                </div>
+
                 <div class="row" *ngIf="proceso">
                   <div class="col">
                     <div class="">

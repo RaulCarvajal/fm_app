@@ -18,3 +18,60 @@
 [type=radio]:hover + img{
     filter: blur(5px);
 }
+
+.img-mostrar{
+    width: 80px;
+    margin: 15px;
+    transition: 0.3s;
+}
+
+.img-mostrar:hover{
+    width: 100px;
+}
+
+/*Servicio imagenes*/
+
+.img-ser{
+    width: 100px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+/*
+Modales
+*/
+.thumbnail {
+    position: relative;
+    z-index: 0;
+}
+
+.thumbnail:hover {
+    background-color: transparent;
+    z-index: 50;
+}
+
+.thumbnail span {
+    /*CSS for enlarged image*/
+    position: absolute;
+    background-color: lightgray;
+    padding: 5px;
+    left: -1000px;
+    visibility: hidden;
+    color: black;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.thumbnail span img {
+    /*CSS for enlarged image*/
+    border-width: 0;
+    padding: 2px;
+    border-radius: 10px;
+}
+
+.thumbnail:hover span {
+    /*CSS for enlarged image on hover*/
+    visibility: visible;
+    top: 0;
+    left: 60px; /*position where enlarged image should offset horizontally */
+}

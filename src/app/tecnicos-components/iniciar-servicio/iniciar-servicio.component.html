@@ -164,6 +164,17 @@
                   </div> 
                 </div>
                 
+                <div class="row" *ngIf="servicio.imgs.length">
+                  <div class="col">
+                    <h6><b>Imagenes</b></h6>
+                  </div> 
+                </div>
+                <div class="row" *ngIf="servicio.imgs.length">
+                  <div *ngFor="let img of servicio.imgs;let inx = index" class="col text-center">
+                    <a class="thumbnail" role="button" (click)="empty()"><img src="{{img}}" class="img-ser" /><span><img src="{{img}}" width="300px"/><br />Servicio_{{inx}}</span></a>
+                  </div> 
+                </div>
+
                 <div class="row" *ngIf="proceso && autorizado">
                   <div class="col">
                     <h6><b>Autorización del servicio</b></h6>
@@ -250,7 +261,7 @@
   </div>
 </div>  
 <app-footer></app-footer>
-
+ <!-- MODAL INICIAR SERVICIO -->
 <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" *ngIf="cargando">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -278,6 +289,7 @@
   </div>
 </div>
 
+<!-- MODAL FINALIZAR SERVICIO -->
 <div class="modal fade" id="finalModal" tabindex="-1" role="dialog" *ngIf="cargando">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -297,6 +309,7 @@
           <div class="row">
             <div class="col">
               <form [formGroup]="finalizarForm" (ngSubmit)="finalizarServicio()">
+                <!--Tipo sensor, controlador, programa-->
                 <div class="row">
                   <div class="col">
                     <div class="form-group">
@@ -326,6 +339,7 @@
                     </div>
                   </div>
                 </div>
+                <!--Trabajo realizado, comentario, recomendaciones-->
                 <div class="form-group">
                     <label for="tr"><span class="text-danger">*</span>Trabajo realizado</label>
                     <textarea class="form-control form-control-sm" id="tr" rows="3" formControlName="trabajo_realizado"></textarea>
@@ -347,6 +361,7 @@
                       <p *ngIf="finalizarForm.get('recomendaciones').hasError('required')" class="text-danger">Campo requerido</p>
                     </div>
                 </div>
+                <!--Enalces a archivos en la nube-->
                 <div class="form-group">
                   <label for="re">Enlace a archivos en la nube(Dropbox, GDrive, etc...)</label>
                   <textarea class="form-control form-control-sm" id="re" rows="3" formControlName="enlaces"></textarea>
@@ -354,7 +369,23 @@
                   <div *ngIf="finalizarForm.get('enlaces').errors&&finalizarForm.get('enlaces').dirty">
                     <p *ngIf="finalizarForm.get('enlaces').hasError('required')" class="text-danger">Campo requerido</p>
                   </div>
-              </div>
+                </div>
+                <!--Adjuntar imagenes-->
+                <div class="form-group">
+                  <label for="img">Imagenes</label>
+                  <input #myInput type="file" class="form-control" id="img" accept="image/*" (change)="handleFileSelect($event)" > <!--formControlName="img"-->
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <img *ngFor="let img of imgs;let inx = index" src="{{img}}" class="img-fluid img-mostrar" (click)="delImg(inx)" matTooltip="Click para eliminar">
+                  </div>
+                </div>
+                <div class="row" *ngIf="imgs.length">
+                  <div class="col">
+                    <small class="text-muted">Click en la imagen para eliminarla.</small>
+                  </div>
+                </div>
+                <!--Inicio y fin de servicio-->
                 <hr>
                 <div class="row">
                   <div class="col">
@@ -391,16 +422,15 @@
                   </div>
                 </div>
                 <hr>
+                <!--Asignación de horas por concepto de contrato-->
                 <div class="row">
                   <div class="col">
                     <p><b>Asignación de horas por concepto del contrato.</b></p>
                     <p>Horas totales del servicio: {{hours}} horas</p>
                   </div>
                 </div>
-
                 <div formArrayName="conceptos">
                   <div *ngFor="let item of getConceptos.controls; let pind = index" [formGroupName]="pind">
-                  
                     <div class="row">
                       <div class="col-1">
                         <div class="form-group">
@@ -441,7 +471,7 @@
                   </div>
                 </div>
                 <hr>
-
+                <!--Totales-->
                 <div class="row">
                   <div class="col">
                     <div class="form-group">
@@ -452,7 +482,7 @@
                     </div>
                   </div>
                 </div>
-
+                <!--Guardar servicio-->
                 <br>
                 <button type="submit" class="btn btn-primary w-100" [disabled]="finalizarForm.invalid == maxHoras">Guardar servicio</button>
               </form>

@@ -19,7 +19,8 @@ export interface servicios {
     'agreement' : String,
     'payment' : payment,
     'conceptos' : conceptos [],
-    'enlaces' : string
+    'enlaces' : string,
+    'imgs' : string []
 }
 
 interface obs { 

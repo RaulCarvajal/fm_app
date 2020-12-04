@@ -85,6 +85,7 @@ import { AddmodeloComponent } from './equipos-components/addmodelo/addmodelo.com
 import { VermodeloComponent } from './equipos-components/vermodelo/vermodelo.component';
 import { ChartsModule } from 'ng2-charts';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { RegistroComponent } from './registro/registro.component';
 
 // tslint:disable-next-line: no-unused-expression
 @NgModule({
@@ -143,7 +144,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     EditarPlantaComponent,
     UpdateUserComponent,
     AddmodeloComponent,
-    VermodeloComponent
+    VermodeloComponent,
+    RegistroComponent
   ],
   imports: [
     HttpClientModule,

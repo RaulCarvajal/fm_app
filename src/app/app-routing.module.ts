@@ -57,6 +57,9 @@ import { VermodeloComponent } from './equipos-components/vermodelo/vermodelo.com
 
 import { ScannerComponent } from './scanner/scanner.component';
 
+import { RegistroComponent } from './registro/registro.component';
+
+
 const routes: Routes = [
   {path : 'login', component : LoginComponent},
   {path : 'inicio', component : InicioComponent},
@@ -113,7 +116,10 @@ const routes: Routes = [
   {path : 'misservicios-tec/nuevo', component : AddservicioTecComponent},
   {path : 'misservicios-tec/nuevo/:id', component : AddservicioemgTecComponent},
   {path : 'misservicios-tec/:id', component : IniciarServicioComponent},
-  {path : 'micuenta', component : MiCuentaComponent}
+  {path : 'micuenta', component : MiCuentaComponent},
+
+  //Registro de admin
+  {path : 'registro', component : RegistroComponent}
 ];
 
 @NgModule({
